@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - master
-      - arm-ci # todo: remove
     paths:
       - 'recipes/jansson/all/**'
       - 'build.py'
