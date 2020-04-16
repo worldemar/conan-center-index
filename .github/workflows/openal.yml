@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - master
+      - openal-ping
     paths:
       - 'recipes/openal/all/**'
       - 'build.py'
