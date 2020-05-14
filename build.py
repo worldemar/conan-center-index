@@ -56,10 +56,9 @@ def main():
         builder.add_common_builds(pure_c=is_pure_c)
         builder.run()
     else:
-        libname = os.environ["CONAN_REFERENCE"].split('/')[0]
-        libshared = {libname + ":shared": True}
-        builder.add(settings=dict(build_type='Release'), options=libshared)
-        builder.add(settings=dict(build_type='Debug'), options=libshared)
+        # cannot rely on add_common_builds since compiler.version and arch are taken from profile instead of envvars
+        for bt in os.getenv('CONAN_BUILD_TYPES').split(','):
+            builder.add(settings=dict(build_type=bt))
         for platform in arm_platforms:
             os.environ['CONAN_DEFAULT_PROFILE_PATH']="/home/conan/.conan/profiles/%s"%platform
             builder.run()
