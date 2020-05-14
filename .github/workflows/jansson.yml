@@ -22,11 +22,7 @@ jobs:
   jansson:
     strategy:
       matrix:
-<<<<<<< HEAD
         build: ['linux-gcc7', 'windows-2019-release', 'macos', 'linux-arm']
-=======
-        build: ['linux-gcc4.8', 'linux-gcc7', 'linux-gcc9', 'windows-2019-release', 'windows-2019-debug', 'macos']
->>>>>>> de7e03d9... initial WIP attempt to build arm-images in docker
         jansson_versions: ['2.12']
         include:
           - build: 'linux-gcc7'
