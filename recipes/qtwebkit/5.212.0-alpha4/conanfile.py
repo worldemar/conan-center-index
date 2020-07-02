@@ -123,10 +123,19 @@ class QtWebKitConan(ConanFile):
         return cmake
 
     def build(self):
-        self.run("ls -la /Users/runner/hostedtoolcache/stack/2.3.1/x64")
         path_original = os.environ["PATH"].split(os.pathsep)
         path_no_mono = [p for p in path_original if not ("Mono.framework" in p)]
-        with tools.environment_append({"PATH": "/Users/runner/hostedtoolcache/stack/2.3.1/x64:/Users/runner/bin:/Users/runner/.cargo/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin"}): # os.pathsep.join(path_no_mono)}):
+        with tools.environment_append({"PATH": ":".join([
+                    ,"/Users/runner/hostedtoolcache/Python/3.8.3/x64/bin"
+                    ,"/Users/runner/hostedtoolcache/Python/3.8.3/x64"
+                    ,"/Users/runner/bin"
+                    ,"/usr/local/bin"
+                    ,"/usr/bin"
+                    ,"/bin"
+                    ,"/usr/local/sbin"
+                    ,"/usr/sbin"
+                    ,"/sbin"
+                    ])}): # os.pathsep.join(path_no_mono)}):
             self.run("set")
             cmake = self._configure_cmake()
             self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
