@@ -119,7 +119,7 @@ class QtWebKitConan(ConanFile):
         cmake.definitions["Qt5_DIR"] = os.path.join(qt_dir.libdirs[0], "cmake", "Qt5")
 
         cmake.configure(
-            args = "-DCMAKE_VERBOSE_MAKEFILE=ON --trace-expand",
+            args = ["-DCMAKE_VERBOSE_MAKEFILE=ON", "--trace-expand"],
             build_folder=self._build_subfolder,
             source_folder=self._source_subfolder)
 
