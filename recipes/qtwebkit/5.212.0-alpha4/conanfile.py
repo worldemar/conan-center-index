@@ -123,12 +123,13 @@ class QtWebKitConan(ConanFile):
         return cmake
 
     def build(self):
-        self.run("set")
-        cmake = self._configure_cmake()
-        self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
-        self.run("cat conanbuildinfo.cmake | grep -i png")
-        # self.run("find / -name png.h -print -exec grep LIBPNG_VER {} \\;")
-        raise RuntimeException("DO NOT BUILD")
+        with tools.environment_append({PATH: None}):
+            self.run("set")
+            cmake = self._configure_cmake()
+            self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
+            self.run("cat conanbuildinfo.cmake | grep -i png")
+            # self.run("find / -name png.h -print -exec grep LIBPNG_VER {} \\;")
+            raise RuntimeException("DO NOT BUILD")
         cmake.build()
         cmake.install()
 
