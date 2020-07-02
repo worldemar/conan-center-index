@@ -123,7 +123,9 @@ class QtWebKitConan(ConanFile):
         return cmake
 
     def build(self):
-        with tools.environment_append({"PATH": None}):
+        path_original = os.environ["PATH"].split(os.pathsep)
+        path_no_mono = [p for p in path_original if not ("Mono.framework" in p)]
+        with tools.environment_append({"PATH": os.pathsep.join(path_no_mono)}):
             self.run("set")
             cmake = self._configure_cmake()
             self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
