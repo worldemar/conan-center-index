@@ -123,7 +123,7 @@ class QtWebKitConan(ConanFile):
         return cmake
 
     def build(self):
-        with tools.environment_append({PATH: None}):
+        with tools.environment_append({"PATH": None}):
             self.run("set")
             cmake = self._configure_cmake()
             self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
