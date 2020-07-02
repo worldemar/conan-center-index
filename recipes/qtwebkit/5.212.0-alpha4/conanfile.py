@@ -123,6 +123,7 @@ class QtWebKitConan(ConanFile):
         return cmake
 
     def build(self):
+        self.run("which conan")
         path_original = os.environ["PATH"].split(os.pathsep)
         path_no_mono = [p for p in path_original if not ("Mono.framework" in p)]
         with tools.environment_append({"PATH": "/Users/runner/bin:/Users/runner/.cargo/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin"}): # os.pathsep.join(path_no_mono)}):
