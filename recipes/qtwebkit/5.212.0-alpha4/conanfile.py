@@ -125,7 +125,7 @@ class QtWebKitConan(ConanFile):
     def build(self):
         cmake = self._configure_cmake()
         self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
-        self.run("cat build_subfolder/conanbuildinfo.cmake | grep -i png")
+        self.run("cat conanbuildinfo.cmake | grep -i png")
         # self.run("find / -name png.h -print -exec grep LIBPNG_VER {} \\;")
         raise RuntimeException("DO NOT BUILD")
         cmake.build()
