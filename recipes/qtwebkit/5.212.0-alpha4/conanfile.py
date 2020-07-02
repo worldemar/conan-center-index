@@ -126,7 +126,7 @@ class QtWebKitConan(ConanFile):
         path_original = os.environ["PATH"].split(os.pathsep)
         path_no_mono = [p for p in path_original if not ("Mono.framework" in p)]
         with tools.environment_append({"PATH": ":".join([
-                    ,"/Users/runner/hostedtoolcache/Python/3.8.3/x64/bin"
+                    "/Users/runner/hostedtoolcache/Python/3.8.3/x64/bin"
                     ,"/Users/runner/hostedtoolcache/Python/3.8.3/x64"
                     ,"/Users/runner/bin"
                     ,"/usr/local/bin"
