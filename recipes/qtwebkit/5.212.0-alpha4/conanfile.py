@@ -118,14 +118,18 @@ class QtWebKitConan(ConanFile):
         qt_dir = self.deps_cpp_info["qt"]
         cmake.definitions["Qt5_DIR"] = os.path.join(qt_dir.libdirs[0], "cmake", "Qt5")
 
-        cmake.configure(build_folder=self._build_subfolder, source_folder=self._source_subfolder)
+        cmake.configure(
+            args = "-DCMAKE_VERBOSE_MAKEFILE=ON --trace-expand",
+            build_folder=self._build_subfolder,
+            source_folder=self._source_subfolder)
 
         return cmake
 
     def build(self):
         path_original = os.environ["PATH"].split(os.pathsep)
         path_no_mono = [p for p in path_original if not ("Mono.framework" in p)]
-        with tools.environment_append({"PATH": ":".join([
+        with tools.environment_append({"DOTNET_ROOT": None,
+                    "PATH": ":".join([
                     "/Users/runner/hostedtoolcache/Python/3.8.3/x64/bin"
                     ,"/Users/runner/hostedtoolcache/Python/3.8.3/x64"
                     ,"/Users/runner/bin"
