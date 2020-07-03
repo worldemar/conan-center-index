@@ -140,7 +140,7 @@ class QtWebKitConan(ConanFile):
         #            ,"/usr/sbin"
         #            ,"/sbin"
         #            ])}): # os.pathsep.join(path_no_mono)}):
-        self.run("sudo id")
+        self.run("sudo rm -v /Library/Frameworks/Mono.framework")
         self.run("set")
         cmake = self._configure_cmake()
         self.run("cat build_subfolder/CMakeCache.txt | grep -i png")
