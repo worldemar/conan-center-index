@@ -123,7 +123,8 @@ class QtWebKitConan(ConanFile):
         return cmake
 
     def build(self):
-        self.run("sudo rm -rf /Library/Frameworks/Mono.framework")
+        if tools.is_apple_os(self.settings.os):
+            self.run("sudo rm -rf /Library/Frameworks/Mono.framework")
         cmake = self._configure_cmake()
         cmake.build()
         cmake.install()
