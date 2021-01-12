@@ -21,7 +21,6 @@ if __name__ == "__main__":
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
         upload=("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir"),
-        upload_only_when_stable=1,
         stable_branch_pattern="master",
         stable_channel="_",
         config_url=conan_config_url,
