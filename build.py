@@ -17,6 +17,9 @@ if __name__ == "__main__":
     if platform != "linux":
         conan_config_url="https://github.com/trassir/conan-config.git"
 
+    for e in environ.keys():
+        print("%s = %s" % (e, environ[e]))
+
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
