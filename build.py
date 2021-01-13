@@ -29,6 +29,7 @@ if __name__ == "__main__":
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
         upload=upload,
+        upload_only_when_stable=1,
         stable_branch_pattern=stable_branch_pattern,
         stable_channel="_",
         config_url=conan_config_url,
