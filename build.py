@@ -17,20 +17,20 @@ if __name__ == "__main__":
     if platform != "linux":
         conan_config_url="https://github.com/trassir/conan-config.git"
 
-    stable_branch_pattern = "master"
-    upload = ("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir")
-    if "GITHUB_HEAD_REF" in environ:
-        head_ref = environ["GITHUB_HEAD_REF"]
-        print(head_ref)
-        stable_branch_pattern = head_ref
-        upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir")
+    # stable_branch_pattern = "master"
+    # upload = ("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir")
+    # if "GITHUB_HEAD_REF" in environ:
+    #     head_ref = environ["GITHUB_HEAD_REF"]
+    #     print(head_ref)
+    #     stable_branch_pattern = head_ref
+    #     upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir")
 
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
-        upload=upload,
+        upload=("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir"),
         upload_only_when_stable=1,
-        stable_branch_pattern=stable_branch_pattern,
+        stable_branch_pattern="upload-staging-packages",
         stable_channel="_",
         config_url=conan_config_url,
         remotes="https://api.bintray.com/conan/trassir/conan-public"
