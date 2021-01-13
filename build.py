@@ -25,12 +25,15 @@ if __name__ == "__main__":
     #     stable_branch_pattern = head_ref
     #     upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir")
 
+    for e in environ.keys():
+        print("%s = %s" % (e, environ[e]))
+
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
         upload=("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir"),
         upload_only_when_stable=1,
-        stable_branch_pattern="upload-staging-packages",
+        stable_branch_pattern="master",
         stable_channel="_",
         config_url=conan_config_url,
         remotes="https://api.bintray.com/conan/trassir/conan-public"
