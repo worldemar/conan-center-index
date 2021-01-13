@@ -21,6 +21,7 @@ if __name__ == "__main__":
     upload = ("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir")
     if "GITHUB_HEAD_REF" in environ:
         head_ref = environ["GITHUB_HEAD_REF"]
+        print(head_ref)
         stable_branch_pattern = head_ref
         upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir")
 
