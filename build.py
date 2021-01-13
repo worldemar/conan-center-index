@@ -24,7 +24,7 @@ if __name__ == "__main__":
         head_ref = environ["GITHUB_HEAD_REF"]
         stable_branch_pattern = head_ref
         upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir")
-        stable_channel = head_ref
+        stable_channel = head_ref + "/" + head_ref
 
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
