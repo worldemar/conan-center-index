@@ -7,7 +7,6 @@ from cpt.tools import get_bool_from_env
 if __name__ == "__main__":
     environ["CONAN_USERNAME"] = "_"
     environ["CONAN_CHANNEL"] = "ci"
-    environ["CONAN_REMOTES"] = "https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
     environ["CONAN_TEST_SUITE"] = "True" # trick CPT into uploading from PR
 
     if "CONAN_OPTIONS" in environ and environ["CONAN_OPTIONS"] != "":
@@ -19,9 +18,14 @@ if __name__ == "__main__":
     if platform != "linux":
         conan_config_url="https://github.com/trassir/conan-config.git"
 
-    upload=("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir-public")
-    if environ.get("GITHUB_HEAD_REF", "master") != "master":
-        head_ref = environ["GITHUB_HEAD_REF"]
+    if environ.get("GITHUB_HEAD_REF", "master") == "master":
+        environ["CONAN_REMOTES"] = "https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
+        upload=("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir-public")
+    else:
+        environ["CONAN_REMOTES"] = ",".join([
+            "https://api.bintray.com/conan/trassir/conan-staging@True@bintray-trassir-staging"
+            ,"https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
+            ])
         upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir-staging")
 
     is_pure_c = get_bool_from_env('IS_PURE_C')
