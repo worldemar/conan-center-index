@@ -8,6 +8,7 @@ if __name__ == "__main__":
     environ["CONAN_USERNAME"] = "_"
     environ["CONAN_CHANNEL"] = "ci"
     environ["CONAN_REMOTES"] = "https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
+    environ["CONAN_TEST_SUITE"] = "True" # trick CPT into uploading from PR
 
     if "CONAN_OPTIONS" in environ and environ["CONAN_OPTIONS"] != "":
         environ["CONAN_OPTIONS"] = "*:shared=True," + environ["CONAN_OPTIONS"]
