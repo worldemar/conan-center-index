@@ -20,18 +20,17 @@ if __name__ == "__main__":
 
     if environ.get("GITHUB_HEAD_REF", "master") == "master":
         environ["CONAN_REMOTES"] = "https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
-        upload=("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir-public")
+        environ["CONAN_UPLOAD"] = "https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
     else:
         environ["CONAN_REMOTES"] = ",".join([
             "https://api.bintray.com/conan/trassir/conan-staging@True@bintray-trassir-staging"
             ,"https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
             ])
-        upload = ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir-staging")
+        environ["CONAN_UPLOAD"] = "https://api.bintray.com/conan/trassir/conan-staging@True@bintray-trassir-staging"
 
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
-        upload=upload,
         upload_only_when_stable=1,
         stable_branch_pattern="master",
         stable_channel="_",
