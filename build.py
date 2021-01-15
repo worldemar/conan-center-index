@@ -2,7 +2,7 @@ from os import environ
 from sys import platform
 from cpt.packager import ConanMultiPackager
 from cpt.tools import get_bool_from_env
-
+from conans.client.conan_api import Conan
 
 if __name__ == "__main__":
     environ["CONAN_USERNAME"] = "_"
@@ -27,6 +27,9 @@ if __name__ == "__main__":
     #         ,"https://api.bintray.com/conan/trassir/conan-public@True@bintray-trassir-public"
     #         ])
     #     environ["CONAN_UPLOAD"] = "https://api.bintray.com/conan/trassir/conan-staging@True@bintray-trassir-staging"
+
+    api, _, _ = Conan.factory()
+    api.remote_remove("bintray-trassir")
 
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
