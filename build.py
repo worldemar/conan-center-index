@@ -32,13 +32,13 @@ if __name__ == "__main__":
     builder = ConanMultiPackager(
         login_username="trassir-ci-bot",
         upload_only_when_stable=1,
-        upload=("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir-staging"),
+        upload=("https://api.bintray.com/conan/trassir/conan-staging", True, "trassir-staging"),
         stable_branch_pattern="master",
         stable_channel="_",
         config_url=conan_config_url,
         remotes=[
-            ("https://api.bintray.com/conan/trassir/conan-staging", True, "bintray-trassir-staging"),
-            ("https://api.bintray.com/conan/trassir/conan-public", True, "bintray-trassir-public"),
+            ("https://api.bintray.com/conan/trassir/conan-staging", True, "trassir-staging"),
+            ("https://api.bintray.com/conan/trassir/conan-public", True, "trassir-public"),
         ]
         )
 
