@@ -28,8 +28,8 @@ if __name__ == "__main__":
     #         ])
     #     environ["CONAN_UPLOAD"] = "https://api.bintray.com/conan/trassir/conan-staging@True@bintray-trassir-staging"
 
-    api, _, _ = Conan.factory()
-    api.remote_remove("bintray-trassir")
+    # api, _, _ = Conan.factory()
+    # api.remote_remove("bintray-trassir")
 
     is_pure_c = get_bool_from_env('IS_PURE_C')
     builder = ConanMultiPackager(
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         upload=("https://api.bintray.com/conan/trassir/conan-staging", True, "trassir-staging"),
         stable_branch_pattern="master",
         stable_channel="_",
-        config_url=conan_config_url,
+        # config_url=conan_config_url,
         remotes=[
             ("https://api.bintray.com/conan/trassir/conan-staging", True, "trassir-staging"),
             ("https://api.bintray.com/conan/trassir/conan-public", True, "trassir-public"),
