@@ -22,6 +22,7 @@ sip/4.19.3@_/_
 
 # resolve conflicts
 zlib/1.2.11@conan/stable
+bzip2/1.0.6@conan/stable
 
 [options]
 OpenSSL:shared=True
