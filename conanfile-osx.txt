@@ -3,41 +3,46 @@ cmake
 virtualrunenv
 
 [requires]
-OpenSSL/1.0.2l@conan/stable
-axtls/1.5.3@_/_ # trassir/stable
-boost/1.64.0@conan/stable
-c-ares/1.15.0@conan/stable
-ffmpeg/3.3.1@_/_
+axtls/1.5.3
+boost/1.64.0
+c-ares/1.15.0
+ffmpeg/3.3.1
 glew/2.1.0@bincrafters/stable
-jansson/2.12@bincrafters/stable
-jsoncpp/1.8.3@_/_
-libcurl/7.50.3@bincrafters/stable
-libpq/9.6.9@bincrafters/stable
-miniupnpc/2.1@_/_ # rhard/testing
-openal/1.19.0@_/_
-opencv/2.4.13.5@conan/stable
-pjsip/2.8@_/_
-qt/4.8.7-bin@_/_
-sip/4.19.3@_/_
+jansson/2.12
+jsoncpp/1.8.3
+libcurl/7.64.1
+libpq/11.5
+miniupnpc/2.1
+openal/1.20.1
+opencv/2.4.13.5
+openssl/1.1.1d
+pjsip/2.8
+qt/5.14.1
+sip/4.19.3
+qtwebkit/5.212.0-alpha4
 
 # resolve conflicts
 zlib/1.2.11@conan/stable
 bzip2/1.0.6@conan/stable
 
 [options]
-OpenSSL:shared=True
-c-ares:shared=True
-ffmpeg:shared=True
-glew:shared=True
-jansson:shared=True
-jsoncpp:shared=True
-libpq:shared=True
-libcurl:shared=True
+*:shared=True
 libcurl:darwin_ssl=False
-miniupnpc:shared=True
-openal:shared=True
 opencv:jasper=False
 opencv:openexr=False
-opencv:shared=True
 opencv:tiff=False
-pjsip:shared=True
+qt:qtmultimedia=True
+qt:openssl=True
+qt:qtimageformats=True
+qt:qtscript=True
+qt:qtsvg=True
+qt:qtx11extras=False
+qt:with_builtin_libs=True
+qt:with_glib=False
+qt:with_icu=False
+qt:with_mysql=False
+qt:with_pcre2=False
+qt:with_sdl2=False
+qt:with_zstd=False
+qt:qttools=True
+sip:python=python2
