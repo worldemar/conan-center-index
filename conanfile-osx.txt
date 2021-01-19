@@ -20,6 +20,9 @@ pjsip/2.8@_/_
 qt/4.8.7-bin@_/_
 sip/4.19.3@_/_
 
+# resolve conflicts
+zlib/1.2.11@conan/stable
+
 [options]
 OpenSSL:shared=True
 c-ares:shared=True
