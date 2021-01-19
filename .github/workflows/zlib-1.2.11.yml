@@ -22,16 +22,8 @@ jobs:
   zlib_1_2_11:
     strategy:
       matrix:
-        build: ['linux-gcc8', 'macos', 'windows-2019-release', 'windows-2019-debug']
+        build: ['macos']
         include:
-          - build: 'linux-gcc8'
-            os: 'ubuntu-latest'
-            compiler: 'gcc'
-            compiler_version: '8'
-            docker_image: 'trassiross/conan-gcc8'
-            build_types: 'Release'
-            archs: 'x86_64'
-            conan_reference: 'zlib/1.2.11'
           - build: 'macos'
             os: 'macos-10.15'
             deployment-target: '10.14'
@@ -41,20 +33,8 @@ jobs:
             compiler_version: '11.0'
             xcode_version: '11.4'
             conan_reference: 'zlib/1.2.11'
-          - build: 'windows-2019-release'
-            os: 'windows-2019'
-            build_types: 'Release'
-            compiler: 'vs'
-            compiler_version: '16'
-            vs_runtimes: 'MD,MT'
-            archs: 'x86'
-          - build: 'windows-2019-debug'
-            os: 'windows-2019'
-            build_types: 'Debug'
-            compiler: 'vs'
-            compiler_version: '16'
-            vs_runtimes: 'MDd,MTd'
-            archs: 'x86'
+            conan_txt: 'conanfile-osx.txt'
+            conan_pr: 'conanprofile.osx'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Configure git
@@ -68,6 +48,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
+      - name: Conan Install
+        run: conan install ${{ matrix.conan_txt }} -if install_dir --update -pr ${{ matrix.conan_pr }} -s build_type=Release --build missing
+        shell: bash
       - name: Build and Optionally Upload
         uses: trassir/run-cpt@v0.2.2-trassir
         with:

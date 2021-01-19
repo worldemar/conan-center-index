@@ -4,6 +4,8 @@ from cpt.packager import ConanMultiPackager
 from cpt.tools import get_bool_from_env
 from conans.client.conan_api import Conan
 
+sys.exit(0)
+
 if __name__ == "__main__":
     environ["CONAN_USERNAME"] = "_"
     environ["CONAN_CHANNEL"] = "ci"
