@@ -7,18 +7,18 @@ OpenSSL/1.0.2l@conan/stable
 axtls/1.5.3@_/_ # trassir/stable
 boost/1.64.0@conan/stable
 c-ares/1.15.0@conan/stable
-ffmpeg/3.3.1@trassir/stable
+ffmpeg/3.3.1@_/_
 glew/2.1.0@bincrafters/stable
 jansson/2.12@bincrafters/stable
-jsoncpp/1.8.3@trassir/stable
+jsoncpp/1.8.3@_/_
 libcurl/7.50.3@bincrafters/stable
 libpq/9.6.9@bincrafters/stable
 miniupnpc/2.1@rhard/testing
-openal/1.19.0@trassir/stable
+openal/1.19.0@_/_
 opencv/2.4.13.5@conan/stable
-pjsip/2.8@trassir/stable
-qt/4.8.7-bin@trassir/stable
-sip/4.19.3@trassir/stable
+pjsip/2.8@_/_
+qt/4.8.7-bin@_/_
+sip/4.19.3@_/_
 
 [options]
 OpenSSL:shared=True
