@@ -21,10 +21,6 @@ qt/5.14.1
 sip/4.19.3
 qtwebkit/5.212.0-alpha4
 
-# resolve conflicts
-zlib/1.2.11@conan/stable
-bzip2/1.0.6@conan/stable
-
 [options]
 *:shared=True
 libcurl:darwin_ssl=False
