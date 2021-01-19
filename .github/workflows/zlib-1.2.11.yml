@@ -49,7 +49,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: Conan Install
-        run: python3 build.py
+        run: python3 ../build.py
         shell: bash
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}
