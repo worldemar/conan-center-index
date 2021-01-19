@@ -13,7 +13,7 @@ jansson/2.12@bincrafters/stable
 jsoncpp/1.8.3@_/_
 libcurl/7.50.3@bincrafters/stable
 libpq/9.6.9@bincrafters/stable
-miniupnpc/2.1@rhard/testing
+miniupnpc/2.1@_/_ # rhard/testing
 openal/1.19.0@_/_
 opencv/2.4.13.5@conan/stable
 pjsip/2.8@_/_
