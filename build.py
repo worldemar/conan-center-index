@@ -1,10 +1,14 @@
 from os import environ
-from sys import platform
-from cpt.packager import ConanMultiPackager
-from cpt.tools import get_bool_from_env
+from sys import exit
+# from cpt.packager import ConanMultiPackager
+# from cpt.tools import get_bool_from_env
 from conans.client.conan_api import Conan
+from conans.client.command import Command
 
-sys.exit(0)
+cmd = Command(Conan())
+cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
+
+exit(0)
 
 if __name__ == "__main__":
     environ["CONAN_USERNAME"] = "_"
