@@ -48,6 +48,8 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
+      - name: Build search
+        run: find ../../ -iname build.py
       - name: Conan Install
         run: python3 ../build.py
         shell: bash
