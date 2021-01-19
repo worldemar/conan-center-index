@@ -8,8 +8,10 @@ from conans.client.command import Command
 cmd = Command(Conan())
 cmd.config(["install", "https://github.com/trassir/conan-config.git"])
 cmd.remote(["remove", "bintray-trassir"])
-cmd.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
 cmd.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/conan-staging", "True"])
+cmd.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
+cmd.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
+
 cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
 exit(0)
