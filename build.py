@@ -1,4 +1,4 @@
-from os import environ
+from os import environ, path
 from sys import exit
 # from cpt.packager import ConanMultiPackager
 # from cpt.tools import get_bool_from_env
@@ -11,6 +11,23 @@ cmd.remote(["remove", "bintray-trassir"])
 cmd.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/conan-staging", "True"])
 cmd.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
 cmd.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
+
+for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
+    strline = line.decode("ascii")
+    if "/" not in strline:
+        continue
+    if "@" in strline:
+        ref = strline.split("@")[0]
+    else:
+        ref = strline
+    package, version = ref.split("/")
+    possible_conanfile_locations = [
+            path.join("recipes", package, version, "conanfile.py"),
+            path.join("recipes", package, "all", "conanfile.py"),
+        ]
+    for loc in possible_conanfile_locations:
+        if path.isfile(loc):
+            cmd.export([loc, package + "/" + version + "@_/_"])
 
 cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
