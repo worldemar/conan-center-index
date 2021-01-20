@@ -27,7 +27,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         ]
     for loc in possible_conanfile_locations:
         if path.isfile(loc):
-            cmd.export([loc, package + "/" + version + "@_/_"])
+            cmd.export([loc, package + "/" + version + "@trassir/stable"])
 
 cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
