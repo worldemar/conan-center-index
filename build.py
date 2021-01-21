@@ -12,6 +12,9 @@ cmd.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/con
 cmd.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
 cmd.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
 
+for e in environ:
+    print("%s = %s" % (e, environ[e]))
+
 for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     strline = line.decode("ascii")
     if "/" not in strline:
