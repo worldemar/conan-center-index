@@ -160,7 +160,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
 
 cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
-cmd.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, environ["CONAN_USERNAME"]])
+cmd.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
 
 cmd.upload(["*/*", "--confirm", "--force", "--all", "-r", upload_remote])
 
