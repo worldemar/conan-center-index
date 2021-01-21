@@ -115,6 +115,11 @@ from conans.client.command import Command
 # CONAN_APPLE_CLANG_VERSIONS = 11.0
 
 cmd = Command(Conan())
+
+#cmd.user(["--password", "b69485cb5ca8f4af414a5d7a7f6b0afcad642254", "--remote", "trassir-staging", "trassir-ci-bot"])
+
+#exit(0)
+
 cmd.config(["install", "https://github.com/trassir/conan-config.git"])
 cmd.remote(["remove", "bintray-trassir"])
 cmd.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/conan-staging", "True"])
@@ -162,7 +167,7 @@ cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", envi
 
 cmd.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
 
-cmd.upload(["*/*", "--confirm", "--force", "--all", "-r", upload_remote])
+cmd.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
 
 
 exit(0)
