@@ -4,22 +4,22 @@ virtualrunenv
 
 [requires]
 axtls/1.5.3
-boost/1.64.0
-c-ares/1.15.0
-ffmpeg/3.3.1
-glew/2.1.0@bincrafters/stable
-jansson/2.12
-jsoncpp/1.8.3
-libcurl/7.64.1
-libpq/11.5
-miniupnpc/2.1
-openal/1.20.1
-opencv/2.4.13.5
-openssl/1.1.1d
-pjsip/2.8
-qt/5.14.1
-sip/4.19.3
-qtwebkit/5.212.0-alpha4
+# boost/1.64.0
+# c-ares/1.15.0
+# ffmpeg/3.3.1
+# glew/2.1.0@bincrafters/stable
+# jansson/2.12
+# jsoncpp/1.8.3
+# libcurl/7.64.1
+# libpq/11.5
+# miniupnpc/2.1
+# openal/1.20.1
+# opencv/2.4.13.5
+# openssl/1.1.1d
+# pjsip/2.8
+# qt/5.14.1
+# sip/4.19.3
+# qtwebkit/5.212.0-alpha4
 
 [options]
 *:shared=True

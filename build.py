@@ -136,7 +136,7 @@ else:
 for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     strline = line.decode("ascii")
     # skip non-references
-    if "/" not in strline:
+    if "/" not in strline or strline.startswith("#"):
         continue
     # allow manual disable for specific dependencies
     if "# disable GHA" in strline:
