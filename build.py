@@ -129,26 +129,25 @@ cmd.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
 if environ.get("GITHUB_HEAD_REF", "master") == "master":
     upload_remote = "trassir-public"
     upload_channel = "stable"
+    user_channel = ""
 else:
     upload_remote = "trassir-staging"
     upload_channel = environ["GITHUB_HEAD_REF"]
+    user_channel = "@trassir/" + upload_channel
 
 for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     strline = line.decode("ascii")
-    # skip non-references
-    if "/" not in strline or strline.startswith("#"):
+    if strline.startswith("#") or "# disable GHA" in strline:
         continue
-    # allow manual disable for specific dependencies
-    if "# disable GHA" in strline:
+    if "/" not in strline or "@" in strline:
+        with open("conanfile.txt", "wb") as f:
+            f.write(strline + "\n")
         continue
 
-    # ignore "@user/channel"
-    if "@" in strline:
-        ref = strline.split("@")[0]
-    else:
-        ref = strline
-    package, version = ref.split("/")
-    upload_ref = package + "/" + version + "@trassir/" + upload_channel
+    package, version = strline.split("/")
+    upload_ref = package + "/" + version + user_channel
+    with open("conanfile.txt", "wb") as f:
+        f.write(upload_ref + "\n")
 
     conanfile_location = None
     possible_conanfile_locations = [
@@ -159,9 +158,12 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         if path.isfile(loc):
             conanfile_location = loc
     if not conanfile_location:
-        raise RuntimeError("Could not find recipe for package ref %s" % ref)
+        raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
     cmd.export([conanfile_location, upload_ref])
+
+with open("conanfile.txt", "r") as f:
+    print("conanfile.txt ready:\n" + f.read())
 
 cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "--update", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
