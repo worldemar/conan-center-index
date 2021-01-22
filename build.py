@@ -164,7 +164,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
 
     print("Exporting recipe %s" % upload_ref)
     cmd.export([conanfile_location, strline])
-    cmd.copy(["--all", strline, upload_ref])
+    cmd.copy(["--all", strline, user_channel])
 
     cmd.search(['*'])
     cmd.search([upload_ref])
