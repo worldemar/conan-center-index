@@ -126,6 +126,8 @@ cmd.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/con
 cmd.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
 cmd.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
 
+cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
+
 if environ.get("GITHUB_HEAD_REF", "master") == "master":
     upload_remote = "trassir-public"
     upload_channel = "stable"
@@ -161,7 +163,8 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
     print("Exporting recipe %s" % upload_ref)
-    cmd.export([conanfile_location, upload_ref])
+    cmd.export([conanfile_location, strline])
+    cmd.copy(["--all", strline, upload_ref])
 
     cmd.search(['*'])
     cmd.search([upload_ref])
