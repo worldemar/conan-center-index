@@ -162,8 +162,9 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     if not conanfile_location:
         raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
-    print("Exporting recipe %s" % upload_ref)
+    print(">>>> exporting recipe %s" % upload_ref)
     cmd.export([conanfile_location, strline])
+    print(">>>> copying recipe %s -> %s" % (strline, user_channel))
     cmd.copy(["--all", strline, user_channel])
 
     cmd.search(['*'])
