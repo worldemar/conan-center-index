@@ -167,11 +167,8 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     print(">>>> exporting recipe %s" % upload_ref)
     cmd.export([conanfile_location, strline])
 
-    print(">>>> exporting recipe %s" % upload_ref)
-    cmd.export([conanfile_location, strline])
-
     print(">>>> removing temporary recipe %s" % strline)
-    cmd.remove(["--force", "--outdated", strline])
+    cmd.remove(["--force", strline + "@_/_"])
 
 
     cmd.search(['*'])
