@@ -171,7 +171,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     cmd.export([conanfile_location, strline])
 
     print(">>>> removing temporary recipe %s" % strline)
-    cmd.remove(["--force", strline])
+    cmd.remove(["--force", "--outdated", strline])
 
 
     cmd.search(['*'])
