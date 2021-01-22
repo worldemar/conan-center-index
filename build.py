@@ -170,7 +170,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
 with open("conanfile.txt", "r") as f:
     print("conanfile.txt ready:\n" + f.read())
 
-cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
+cmd.install(["conanfile.txt", "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
 cmd.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
 
