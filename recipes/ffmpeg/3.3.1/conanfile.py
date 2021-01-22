@@ -329,8 +329,13 @@ class FFMpegConan(ConanFile):
                                   % (pkg_config_path, filename)
                         tools.run_in_windows_bash(self, command)
 
+                    # looks like msys2 package has pkg-config preinstalled,
+                    # but we need to install it ourselves in case the msys in CONAN_MSYS_PATH does not have it
                     pkg_config_find_or_install_command = "pacman -Qs pkg-config || pacman -S --noconfirm pkg-config"
                     tools.run_in_windows_bash(self, pkg_config_find_or_install_command)
+
+                    # intel_media_sdk.pc contains info on a package libmfx, but ffmpeg's configure script doesn't recognize it
+                    tools.run_in_windows_bash(self, 'mv %s/intel_media_sdk.pc %s/libmfx.pc' % (pkg_config_path, pkg_config_path))
 
                 env_build = AutoToolsBuildEnvironment(self, win_bash=self._is_mingw_windows or self._is_msvc)
                 # ffmpeg's configure is not actually from autotools, so it doesn't understand standard options like
