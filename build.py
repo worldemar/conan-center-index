@@ -140,13 +140,13 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     if strline.startswith("#") or "# disable GHA" in strline:
         continue
     if "/" not in strline or "@" in strline:
-        with open("conanfile.txt", "wb") as f:
+        with open("conanfile.txt", "ab") as f:
             f.write((strline + "\n").encode("utf-8"))
         continue
 
     package, version = strline.split("/")
     upload_ref = package + "/" + version + user_channel
-    with open("conanfile.txt", "wb") as f:
+    with open("conanfile.txt", "ab") as f:
         f.write((upload_ref + "\n").encode("utf-8"))
 
     conanfile_location = None
