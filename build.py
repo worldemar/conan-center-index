@@ -135,7 +135,7 @@ if environ.get("GITHUB_HEAD_REF", "master") == "master":
 else:
     upload_remote = "trassir-staging"
     upload_channel = environ["GITHUB_HEAD_REF"]
-    user_channel = "@trassir/" + upload_channel
+    user_channel = "trassir/" + upload_channel
 
 for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     strline = line.decode("ascii")
@@ -147,7 +147,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         continue
 
     package, version = strline.split("/")
-    upload_ref = package + "/" + version + user_channel
+    upload_ref = package + "/" + version + "@" + user_channel
     with open("conanfile.txt", "ab") as f:
         f.write((upload_ref + "\n").encode("utf-8"))
 
