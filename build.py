@@ -165,7 +165,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     print(">>>> copying recipe and packages %s -> %s" % (strline, user_channel))
     cmd.copy(["--all", strline, user_channel])
     print(">>>> exporting recipe %s" % upload_ref)
-    cmd.export([conanfile_location, strline])
+    cmd.export([conanfile_location, user_channel])
 
     print(">>>> removing temporary recipe %s" % strline)
     cmd.remove(["--force", strline + "@_/_"])
