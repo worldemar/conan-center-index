@@ -141,13 +141,13 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         continue
     if "/" not in strline or "@" in strline:
         with open("conanfile.txt", "wb") as f:
-            f.write(strline + "\n")
+            f.write(strline.encode("utf-8") + "\n")
         continue
 
     package, version = strline.split("/")
     upload_ref = package + "/" + version + user_channel
     with open("conanfile.txt", "wb") as f:
-        f.write(upload_ref + "\n")
+        f.write(upload_ref.encode("utf-8") + "\n")
 
     conanfile_location = None
     possible_conanfile_locations = [
