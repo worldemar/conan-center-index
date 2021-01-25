@@ -1,5 +1,4 @@
 from os import environ, path
-from sys import exit
 # from cpt.packager import ConanMultiPackager
 # from cpt.tools import get_bool_from_env
 from conans.client.conan_api import Conan
@@ -33,8 +32,7 @@ def export_referenced_recipes(conan):
         if not conanfile_location:
             raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
-        print(">>>> exporting recipe %s" % conanfile_location)
-        conan.export([conanfile_location]) # , "_/_"])
+        conan.export([conanfile_location])
 
 if __name__ == "__main__":
     # these interfere with conan commands
@@ -57,6 +55,10 @@ if __name__ == "__main__":
 
     export_referenced_recipes(conan)
 
-    conan.install(["conanfile.txt", "-if", "install_dir", "-pr", environ["CONAN_PROFILE"], "-s", "build_type=Release", "--build", "missing"])
+    conan.install([environ["CONAN_TXT"],
+                    "-if", "install_dir",
+                    "-pr", environ["CONAN_PROFILE"],
+                    "-s", "build_type=Release",
+                    "--build", "missing"])
     conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
     conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
