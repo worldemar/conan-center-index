@@ -33,13 +33,15 @@ def export_referenced_recipes(conan):
         if not is_package_reference(strline):
             continue
 
-        if strline.count("/") != 1:
-            raise RuntimeError("Could not parse package reference '%s'" % strline)
-        package, version = strline.split("/")
+        if "@" in strline:
+            package_ref = strline.split("@")
+        else:
+            package_ref = strline
+        package, version = package_ref.split("/")
 
         conanfile_location = locate_conanfile_for_package(package, version)
         if not conanfile_location:
-            raise RuntimeError("Could not find recipe for package ref %s" % strline)
+            raise RuntimeError("Could not find recipe for package line %s" % strline)
 
         conan.export([conanfile_location, package + "/" + version + "@_/_"])
         have_packages = True
