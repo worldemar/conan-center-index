@@ -68,5 +68,5 @@ if __name__ == "__main__":
                     "-s", "build_type=Release",
                     "--build", "missing"])
     conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
-    if conan.search(["*"]):
-        conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
+    print("Packages: %s " % conan.search(["*"]))
+    conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
