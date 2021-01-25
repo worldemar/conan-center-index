@@ -19,6 +19,10 @@ def is_package_reference(line):
         return False
     if "# disable GHA" in line:
         return False
+    if "sdk120" in line:
+        return False
+    if "sdkARM" in line:
+        return False
 
 def export_referenced_recipes(conan):
     for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
