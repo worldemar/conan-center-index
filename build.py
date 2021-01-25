@@ -1,8 +1,7 @@
 from os import environ, path
-# from cpt.packager import ConanMultiPackager
-# from cpt.tools import get_bool_from_env
 from conans.client.conan_api import Conan
 from conans.client.command import Command
+from conans.errors import NotFoundException
 
 def locate_conanfile_for_package(name, version):
     possible_conanfile_locations = [
@@ -23,8 +22,10 @@ def is_package_reference(line):
         return False
     if "sdkARM" in line:
         return False
+    return True
 
 def export_referenced_recipes(conan):
+    have_packages = False
     for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         strline = line.decode("ascii")
         if not is_package_reference(strline):
@@ -37,6 +38,9 @@ def export_referenced_recipes(conan):
             raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
         conan.export([conanfile_location])
+        have_packages = True
+    return have_packages
+
 
 if __name__ == "__main__":
     # these interfere with conan commands
@@ -60,7 +64,7 @@ if __name__ == "__main__":
     else:
         upload_remote = "trassir-staging"
 
-    export_referenced_recipes(conan)
+    expect_packages = export_referenced_recipes(conan)
 
     conan.install([environ["CONAN_TXT"],
                     "-if", "install_dir",
@@ -68,5 +72,9 @@ if __name__ == "__main__":
                     "-s", "build_type=Release",
                     "--build", "missing"])
     conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
-    print("Packages: %s " % conan.search(["*"]))
-    conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
+    conan.search(["*"])
+    try:
+        conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
+    except NotFoundException:
+        if expect_packages:
+            raise
