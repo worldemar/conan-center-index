@@ -47,7 +47,10 @@ if __name__ == "__main__":
 
     conan = Command(Conan())
     conan.config(["install", "https://github.com/trassir/conan-config.git"])
+
+    # TODO: delete this after https://github.com/trassir/conan-config/pull/11
     conan.remote(["remove", "bintray-trassir"])
+
     conan.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/conan-staging", "True"])
     conan.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
     conan.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
