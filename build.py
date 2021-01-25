@@ -22,6 +22,8 @@ def is_package_reference(line):
         return False
     if "sdkARM" in line:
         return False
+    if not "/" in line:
+        return False
     return True
 
 def export_referenced_recipes(conan):
@@ -31,10 +33,7 @@ def export_referenced_recipes(conan):
         if not is_package_reference(strline):
             continue
 
-        try:
-            package, version = strline.split("/")
-        except ValueError:
-            print("Could not get package version from line '%s'" % strline)
+        package, version = strline.split("/")
 
         conanfile_location = locate_conanfile_for_package(package, version)
         if not conanfile_location:
