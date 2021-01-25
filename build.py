@@ -126,16 +126,14 @@ cmd.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/con
 cmd.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
 cmd.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
 
-cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
+# cmd.install([environ["CONAN_TXT"], "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
 if environ.get("GITHUB_HEAD_REF", "master") == "master":
     upload_remote = "trassir-public"
     upload_channel = "stable"
-    user_channel = ""
 else:
     upload_remote = "trassir-staging"
     upload_channel = environ["GITHUB_HEAD_REF"]
-    user_channel = "trassir/" + upload_channel
 
 for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     strline = line.decode("ascii")
@@ -147,9 +145,6 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         continue
 
     package, version = strline.split("/")
-    upload_ref = package + "/" + version + "@" + user_channel
-    with open("conanfile.txt", "ab") as f:
-        f.write((upload_ref + "\n").encode("utf-8"))
 
     conanfile_location = None
     possible_conanfile_locations = [
@@ -162,21 +157,8 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     if not conanfile_location:
         raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
-    print(">>>> copying recipe and packages %s -> %s" % (strline, user_channel))
-    cmd.copy(["--all", strline, user_channel])
-    print(">>>> exporting recipe %s" % upload_ref)
-    cmd.export([conanfile_location, user_channel])
-
-    print(">>>> removing temporary recipe %s" % strline)
-    cmd.remove(["--force", strline + "@_/_"])
-
-
-    cmd.search(['*'])
-    cmd.search([upload_ref])
-
-
-with open("conanfile.txt", "r") as f:
-    print("conanfile.txt ready:\n" + f.read())
+    print(">>>> exporting recipe %s" % conanfile_location)
+    cmd.export([conanfile_location, "_/_"])
 
 cmd.install(["conanfile.txt", "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
