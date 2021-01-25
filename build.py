@@ -57,6 +57,6 @@ if __name__ == "__main__":
 
     export_referenced_recipes(conan)
 
-    conan.install(["conanfile.txt", "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
+    conan.install(["conanfile.txt", "-if", "install_dir", "-pr", environ["CONAN_PROFILE"], "-s", "build_type=Release", "--build", "missing"])
     conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
     conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
