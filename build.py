@@ -18,7 +18,7 @@ def locate_conanfile_for_package(name, version):
 def is_package_reference(line):
     if line.startswith("#"):
         return False
-    if "# disable GHA" in strline:
+    if "# disable GHA" in line:
         return False
 
 def export_referenced_recipes(conan):
