@@ -157,6 +157,8 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
     if not conanfile_location:
         raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
+    environ["CONAN_USERNAME"] = "_"
+    environ["CONAN_CHANNEL"] = "_"
     print(">>>> exporting recipe %s" % conanfile_location)
     cmd.export([conanfile_location]) # , "_/_"])
 
