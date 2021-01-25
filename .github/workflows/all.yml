@@ -3,16 +3,16 @@ name: zlib-1.2.11 CI
 on:
   pull_request:
     paths:
-      - 'recipes/zlib/1.2.11/**'
+      - 'recipes/**'
       - 'build.py'
-      - '.github/workflows/zlib-1.2.11.yml'
+      - '.github/workflows/all.yml'
   push:
     branches:
       - master
     paths:
-      - 'recipes/zlib/1.2.11/**'
+      - 'recipes/**'
       - 'build.py'
-      - '.github/workflows/zlib-1.2.11.yml'
+      - '.github/workflows/all.yml'
 
 env:
   CONAN_PASSWORD: ${{ secrets.BintrayApiKey }}
@@ -32,9 +32,8 @@ jobs:
             compiler: 'apple_clang'
             compiler_version: '11.0'
             xcode_version: '11.4'
-            conan_reference: 'zlib/1.2.11'
             conan_txt: 'conanfile-osx.txt'
-            conan_pr: 'conanprofile.osx'
+            conan_profile: 'conanprofile.osx'
     runs-on: ${{ matrix.os }}
     steps:
       - name: Configure git
@@ -53,7 +52,7 @@ jobs:
         with:
           install: custom
           # TODO: replace when https://github.com/conan-io/conan-package-tools/issues/479 will be fixed upstream
-          custom-package: git+https://github.com/trassir/conan-package-tools@log-remotes-before-upload
+          custom-package: git+https://github.com/trassir/conan-package-tools@fix-479-trassir
           work-dir: sources/
           build-script: build.py
           compiler: ${{ matrix.compiler }}
@@ -61,9 +60,8 @@ jobs:
           docker-images: ${{ matrix.docker_image }}
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}
-          CONAN_PR: ${{ matrix.conan_pr }}
+          CONAN_PROFILE: ${{ matrix.conan_profile }}
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment-target }}
-          CONAN_REFERENCE: ${{ matrix.conan_reference }}
           CONAN_VISUAL_RUNTIMES: ${{ matrix.vs_runtimes }}
           CONAN_ARCHS: ${{ matrix.archs }}
           CONAN_BUILD_TYPES: ${{ matrix.build_types }}
