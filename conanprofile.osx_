@@ -1,3 +1,0 @@
-include(default)
-[settings]
-compiler.version=11.0
