@@ -39,7 +39,7 @@ def export_referenced_recipes(conan):
         if not conanfile_location:
             raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
-        conan.export([conanfile_location])
+        conan.export([conanfile_location, package + "/" + version + "@_/_"])
         have_packages = True
     return have_packages
 
