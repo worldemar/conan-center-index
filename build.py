@@ -31,7 +31,10 @@ def export_referenced_recipes(conan):
         if not is_package_reference(strline):
             continue
 
-        package, version = strline.split("/")
+        try:
+            package, version = strline.split("/")
+        except ValueError:
+            print("Could not get package version from line '%s'" % strline)
 
         conanfile_location = locate_conanfile_for_package(package, version)
         if not conanfile_location:
