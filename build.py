@@ -34,7 +34,7 @@ def export_referenced_recipes(conan):
             continue
 
         if "@" in strline:
-            package_ref = strline.split("@")
+            package_ref = strline.split("@")[0]
         else:
             package_ref = strline
         package, version = package_ref.split("/")
