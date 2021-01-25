@@ -33,6 +33,8 @@ def export_referenced_recipes(conan):
         if not is_package_reference(strline):
             continue
 
+        if strline.count("/") != 1:
+            raise RuntimeError("Could not parse package reference '%s'" % strline)
         package, version = strline.split("/")
 
         conanfile_location = locate_conanfile_for_package(package, version)
