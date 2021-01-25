@@ -158,7 +158,7 @@ for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
         raise RuntimeError("Could not find recipe for package ref %s" % strline)
 
     print(">>>> exporting recipe %s" % conanfile_location)
-    cmd.export([conanfile_location, "_/_"])
+    cmd.export([conanfile_location]) # , "_/_"])
 
 cmd.install(["conanfile.txt", "-if", "install_dir", "-pr", environ["CONAN_PR"], "-s", "build_type=Release", "--build", "missing"])
 
