@@ -22,7 +22,7 @@ def is_package_reference(line):
         return False
     if "sdkARM" in line:
         return False
-    if not "/" in line:
+    if "/" not in line:
         return False
     return True
 
