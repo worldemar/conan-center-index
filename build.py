@@ -66,7 +66,8 @@ def verify_packages(conan, installed, expected):
         if package not in expected:
             missing_packages.append(package)
         else:
-            conan.info([package + "@_/_"])
+            print("Ready for upload %s" % package)
+            # conan.info([package + "@_/_"])
     if missing_packages:
         print("Some packages were installed (possibly as dependencies) but has no fixed versions in %s:" % environ["CONAN_TXT"])
         print(missing_packages)
