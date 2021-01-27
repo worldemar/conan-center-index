@@ -83,13 +83,19 @@ def prepare_conan():
     conan.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/conan-staging", "True"])
     conan.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
     conan.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
+
+    if environ.get("GITHUB_HEAD_REF", "master") == "master":
+        upload_remote = "trassir-public"
+    else:
+        upload_remote = "trassir-staging"
+
     if "CONAN_PASSWORD" in environ:
         conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
-    return conan
+    return conan, upload_remote
 
 
 if __name__ == "__main__":
-    conan = prepare_conan()
+    conan, upload_remote = prepare_conan()
 
     expected_packages = packages_from_conanfile_txt()
     export_referenced_conanfiles(conan, expected_packages)
@@ -103,9 +109,5 @@ if __name__ == "__main__":
     installed = list_installed_packages(conan)
     verify_packages(conan, installed, expected_packages)
 
-    if environ.get("GITHUB_HEAD_REF", "master") == "master":
-        upload_remote = "trassir-public"
-    else:
-        upload_remote = "trassir-staging"
     if installed:
         conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
