@@ -19,9 +19,11 @@ def is_package_reference(line):
         return False
     if "# disable GHA" in line:
         return False
-    if "sdk120" in line:
+    if "/sdk120" in line:
         return False
-    if "sdkARM" in line:
+    if "/sdkARM" in line:
+        return False
+    if "/system" not in line:
         return False
     if "/" not in line:
         return False
@@ -63,7 +65,13 @@ def list_installed_packages(conan):
 def verify_packages(conan, installed, expected):
     missing_packages = []
     for package in installed:
-        if package not in expected:
+        if not is_package_reference(package):
+            continue
+        if "@" in package:
+            package_ref = package.split("@")[0]
+        else:
+            package_ref = package
+        if package_ref not in expected:
             missing_packages.append(package)
         else:
             print("Ready for upload %s" % package)
