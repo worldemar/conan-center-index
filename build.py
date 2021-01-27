@@ -61,11 +61,10 @@ def list_installed_packages(conan):
     return installed_packages
 
 def verify_packages(conan, installed, expected):
-    print(expected)
     for package in installed:
         if package not in expected:
             raise RuntimeError("Package %s is installed but not specified in conanfile.txt" % package)
-        conan.info([package])
+        conan.info([package + "@_/_"])
 
 def prepare_conan():
     # these interfere with conan commands
