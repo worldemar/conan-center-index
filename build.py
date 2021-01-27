@@ -55,8 +55,9 @@ def list_installed_packages(conan):
     installed_packages = []
     conan.search(["--json", "installed.json", "*"])
     installed = json.load(open("installed.json","r"))
-    for p in installed["results"][0]["items"]:
-        installed_packages.append(p["recipe"]["id"])
+    if installed["results"]:
+        for p in installed["results"][0]["items"]:
+            installed_packages.append(p["recipe"]["id"])
     return installed_packages
 
 def verify_packages(conan, installed, expected):
