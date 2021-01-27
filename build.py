@@ -61,10 +61,16 @@ def list_installed_packages(conan):
     return installed_packages
 
 def verify_packages(conan, installed, expected):
+    missing_packages = []
     for package in installed:
         if package not in expected:
-            raise RuntimeError("Package %s is installed but not specified in conanfile.txt" % package)
-        conan.info([package + "@_/_"])
+            missing_packages.append(package)
+        else:
+            conan.info([package + "@_/_"])
+    if missing_packages:
+        print("Some packages were installed (possibly as dependencies) but has no fixed versions in %s:" % environ["CONAN_TXT"])
+        print(missing_packages)
+        raise RuntimeError("Not all requirements have specified versions in %s" % environ["CONAN_TXT"])
 
 def prepare_conan():
     # these interfere with conan commands
