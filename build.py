@@ -43,7 +43,7 @@ def packages_from_conanfile_txt():
         #     package_ref = strline.split("@")[0]
         # else:
         #     package_ref = strline
-        packages.append(package_ref)
+        packages.append(strline)
     return packages
 
 def export_referenced_conanfiles(conan, packages):
