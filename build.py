@@ -62,8 +62,7 @@ def verify_packages(conan, installed, expected):
         if not is_package_reference(package):
             continue
         if package in expected:
-            print("Package installed %s" % package)
-            conan.info([package + "@_/_"])
+            conan.search([package])
         else:
             missing_packages.append(package)
     if missing_packages:
