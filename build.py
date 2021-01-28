@@ -12,7 +12,8 @@ def locate_conanfile_for_package(name, version):
     for loc in possible_conanfile_locations:
         if path.isfile(loc):
             return loc
-    return None
+    print("conanfile.py not found at %s" % possible_conanfile_locations)
+    raise RuntimeError("Recipe for package %s could not be found" % package_ref)
 
 def is_package_reference(line):
     if line.startswith("#"):
@@ -46,11 +47,7 @@ def packages_from_conanfile_txt():
 def export_referenced_conanfiles(conan, packages):
     for package_ref in packages:
         package, version = package_ref.split("/")
-
         conanfile_location = locate_conanfile_for_package(package, version)
-        if not conanfile_location:
-            raise RuntimeError("Could not find recipe for package line %s" % package_ref)
-
         conan.export([conanfile_location, package + "/" + version + "@_/_"])
 
 def list_installed_packages(conan):
@@ -75,7 +72,7 @@ def verify_packages(conan, installed, expected):
             missing_packages.append(package)
         else:
             print("Ready for upload %s" % package)
-            # conan.info([package + "@_/_"])
+            conan.search([package])
     if missing_packages:
         print("Some packages were installed (possibly as dependencies) but has no fixed versions in %s:" % environ["CONAN_TXT"])
         print(missing_packages)
