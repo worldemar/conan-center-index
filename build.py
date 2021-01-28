@@ -38,11 +38,6 @@ def packages_from_conanfile_txt():
         strline = line.decode("ascii")
         if not is_package_reference(strline):
             continue
-
-        # if "@" in strline:
-        #     package_ref = strline.split("@")[0]
-        # else:
-        #     package_ref = strline
         packages.append(strline)
     return packages
 
@@ -66,15 +61,11 @@ def verify_packages(conan, installed, expected):
     for package in installed:
         if not is_package_reference(package):
             continue
-        # if "@" in package:
-        #     package_ref = package.split("@")[0]
-        # else:
-        #     package_ref = package
-        if package not in expected:
-            missing_packages.append(package)
+        if package in expected:
+            print("Package installed %s" % package)
+            conan.info([package + "@_/_"])
         else:
-            print("Ready for upload %s" % package)
-            conan.search([package])
+            missing_packages.append(package)
     if missing_packages:
         print("Some packages were installed (possibly as dependencies) but has no fixed versions in %s:" % environ["CONAN_TXT"])
         print(missing_packages)
