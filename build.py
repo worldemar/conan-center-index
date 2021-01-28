@@ -26,6 +26,8 @@ def is_package_reference(line):
         return False
     if "/system" in line:
         return False
+    if "@" in line:
+        return False
     if "/" not in line:
         return False
     return True
@@ -37,10 +39,10 @@ def packages_from_conanfile_txt():
         if not is_package_reference(strline):
             continue
 
-        if "@" in strline:
-            package_ref = strline.split("@")[0]
-        else:
-            package_ref = strline
+        # if "@" in strline:
+        #     package_ref = strline.split("@")[0]
+        # else:
+        #     package_ref = strline
         packages.append(package_ref)
     return packages
 
@@ -64,15 +66,15 @@ def verify_packages(conan, installed, expected):
     for package in installed:
         if not is_package_reference(package):
             continue
-        if "@" in package:
-            package_ref = package.split("@")[0]
-        else:
-            package_ref = package
-        if package_ref not in expected:
+        # if "@" in package:
+        #     package_ref = package.split("@")[0]
+        # else:
+        #     package_ref = package
+        if package not in expected:
             missing_packages.append(package)
         else:
             print("Ready for upload %s" % package)
-            conan.search([package + "@_/_"])
+            conan.search([package])
     if missing_packages:
         print("Some packages were installed (possibly as dependencies) but has no fixed versions in %s:" % environ["CONAN_TXT"])
         print(missing_packages)
