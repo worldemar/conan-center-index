@@ -1,60 +1,10 @@
 from os import environ, path
+import sys
 import json
-from conans.client.conan_api import Conan
-from conans.client.command import Command
-from conans.errors import NotFoundException
+import subprocess
+from environment import  prepare_environment
+from conan_tools import ConanfileTxt
 
-def locate_conanfile_for_package(name, version):
-    possible_conanfile_locations = [
-        path.join("recipes", name, version, "conanfile.py"),
-        path.join("recipes", name, "all", "conanfile.py"),
-    ]
-    for loc in possible_conanfile_locations:
-        if path.isfile(loc):
-            return loc
-    print("conanfile.py not found at %s" % possible_conanfile_locations)
-    raise RuntimeError("Recipe for package %s could not be found" % package_ref)
-
-def is_package_reference(line):
-    if line.startswith("#"):
-        return False
-    if "# disable GHA" in line:
-        return False
-    if "/sdk120" in line:
-        return False
-    if "/sdkARM" in line:
-        return False
-    if "/system" in line:
-        return False
-    if "@" in line:
-        return False
-    if "/" not in line:
-        return False
-    return True
-
-def packages_from_conanfile_txt():
-    packages = []
-    for line in open(environ["CONAN_TXT"], "rb").read().splitlines():
-        strline = line.decode("ascii")
-        if not is_package_reference(strline):
-            continue
-        packages.append(strline)
-    return packages
-
-def export_referenced_conanfiles(conan, packages):
-    for package_ref in packages:
-        package, version = package_ref.split("/")
-        conanfile_location = locate_conanfile_for_package(package, version)
-        conan.export([conanfile_location, package + "/" + version + "@_/_"])
-
-def list_installed_packages(conan):
-    installed_packages = []
-    conan.search(["--json", "installed.json", "*"])
-    installed = json.load(open("installed.json","r"))
-    if installed["results"]:
-        for p in installed["results"][0]["items"]:
-            installed_packages.append(p["recipe"]["id"])
-    return installed_packages
 
 def verify_packages(conan, installed, expected):
     missing_packages = []
@@ -70,39 +20,41 @@ def verify_packages(conan, installed, expected):
         print(missing_packages)
         raise RuntimeError("Not all requirements have specified versions in %s" % environ["CONAN_TXT"])
 
-def prepare_conan():
-    # these interfere with conan commands
-    if "CONAN_USERNAME" in environ:
-        del environ["CONAN_USERNAME"]
-    if "CONAN_CHANNEL" in environ:
-        del environ["CONAN_CHANNEL"]
 
-    conan = Command(Conan())
 
-    conan.config(["install", "https://github.com/trassir/conan-config.git"])
+def diff_to_master():
+    changed_files = []
+    diff = subprocess.check_output("git diff master")
+    for line in diff.decode("utf-8").splitlines():
+        if line.startswith("diff --git a/"):
+            two_files = line[len("diff --git a/"):]
+            changed_files.append(two_files.split(" b/")[0])
+    return changed_files
 
-    # TODO: delete this after https://github.com/trassir/conan-config/pull/11
-    conan.remote(["remove", "bintray-trassir"])
-
-    conan.remote(["add", "trassir-staging", "https://api.bintray.com/conan/trassir/conan-staging", "True"])
-    conan.remote(["add", "trassir-public", "https://api.bintray.com/conan/trassir/conan-public", "True"])
-    # conan.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
-
-    if environ.get("GITHUB_HEAD_REF", "master") == "master":
-        upload_remote = "trassir-public"
-    else:
-        upload_remote = "trassir-staging"
-
-    if "CONAN_PASSWORD" in environ:
-        conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
-    return conan, upload_remote
-
+def collect_dependencies(branch_name):
+    subprocess.check_call(["git", "checkout", branch_name])
+    return ConanfileTxt(conan, environ["CONAN_TXT"])
 
 if __name__ == "__main__":
-    conan, upload_remote = prepare_conan()
+    conan, upload_remote = prepare_environment()
 
-    expected_packages = packages_from_conanfile_txt()
-    export_referenced_conanfiles(conan, expected_packages)
+    subprocess.check_call(["git", "checkout", "master"])
+    conanfile_txt_master = collect_dependencies("master")
+    for p in conanfile_txt_master:
+        print(p)
+
+    subprocess.check_call(["git", "checkout", environ.get("GITHUB_HEAD_REF")])
+    conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
+    for p in conanfile_txt_head:
+        print(p)
+
+    for p in conanfile_txt_current.packages:
+        print(p)
+    sys.exit(0)
+
+    expected_packages = packages_from_conanfile_txt(conan)
+    for p in expected_packages:
+        p.export()
 
     conan.install([environ["CONAN_TXT"],
                     "-if", "install_dir",
