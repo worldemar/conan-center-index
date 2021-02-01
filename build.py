@@ -90,7 +90,8 @@ if __name__ == "__main__":
     # for name, package in conanfile_txt_master.packages.iteritems():
     #     print(package)
 
-    conanfile_txt_master = ConanfileTxt(conan, environ["CONAN_TXT"] + "-master")
+    # conanfile_txt_master = ConanfileTxt(conan, environ["CONAN_TXT"] + "-master")
+    conanfile_txt_master = collect_dependencies("master")
     conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
 
     detect_updated_packages(conanfile_txt_master, conanfile_txt_head)
