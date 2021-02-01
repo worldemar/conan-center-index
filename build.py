@@ -38,7 +38,7 @@ def collect_dependencies(branch_name):
 def print_section(message):
     print("=" * 80)
     print("   " + message)
-    print("=" * 80
+    print("=" * 80)
 
 if __name__ == "__main__":
     conan, upload_remote = prepare_environment()
