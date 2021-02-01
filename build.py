@@ -50,7 +50,7 @@ def detect_updated_packages(master_txt, branch_txt):
         Raise error if following requirement is not satisfied:
         "updating conanfile.py must always be done with package version bump"
     """
-    for name, package in branch_txt.packages:
+    for name, package in branch_txt.packages.items():
         if name not in master_txt.packages.keys():
             print("CONAN_TXT: package added %s" % package)
             continue
