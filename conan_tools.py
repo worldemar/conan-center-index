@@ -27,7 +27,7 @@ class PackageReference(object):
         self.conan.export([self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
-        return "%s-%s :: %s" % (
+        return "name=%s\tversion=%s\tsource=%s" % (
             self.name,
             self.version,
             self.conanfile_path
@@ -36,13 +36,14 @@ class PackageReference(object):
 class ConanfileTxt(object):
     def __init__(self, conan, filename):
         self.conan = conan
-        self.packages = []
+        self.packages = {}
         if path.isfile(filename):
             for line in open(filename, "rb").read().splitlines():
                 strline = line.decode("ascii")
                 if not self._is_package_reference(strline):
                     continue
-                self.packages.append(PackageReference(conan, strline))
+                package = PackageReference(conan, strline)
+                self.packages[package.name] = package
 
     def _is_package_reference(self, line):
         if line.startswith("#"):

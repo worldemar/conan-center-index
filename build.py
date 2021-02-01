@@ -35,16 +35,27 @@ def collect_dependencies(branch_name):
     subprocess.check_call(["git", "checkout", branch_name])
     return ConanfileTxt(conan, environ["CONAN_TXT"])
 
+def print_section(message):
+    print("=" * 80)
+    print("   " + message)
+    print("=" * 80
+
 if __name__ == "__main__":
     conan, upload_remote = prepare_environment()
 
+    print_section("Collect packages info from branch 'master'")
+
     subprocess.check_call(["git", "checkout", "master"])
     conanfile_txt_master = collect_dependencies("master")
+    print("Collected %d packages:" % len(conanfile_txt_master.packages))
     for p in conanfile_txt_master.packages:
         print(p)
 
+    print_section("Collect packages info from branch '%s'" % environ.get("GITHUB_HEAD_REF"))
+
     subprocess.check_call(["git", "checkout", environ.get("GITHUB_HEAD_REF")])
     conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
+    print("Collected %d packages:" % len(conanfile_txt_head.packages))
     for p in conanfile_txt_head.packages:
         print(p)
 
