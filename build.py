@@ -54,38 +54,18 @@ def detect_updated_packages(master_txt, branch_txt):
             print("CONAN_TXT: package added %s" % package)
             continue
         if master_txt.packages[name].md5sum != package.md5sum:
-            print("CONAN_TXT: recipe updated for package\npackage(master): %s\npackage(branch): %s" % (
-                master_txt.packages[name],
-                package
-                ))
+            print("CONAN_TXT: recipe update detected\npackage(master): %s\npackage(branch): %s" % (
+                master_txt.packages[name], package))
             if master_txt.packages[name].version == package.version:
-                print("CONAN_TXT: package recipe updated but version did not: %s-%s" % (
-                    package.name,
-                    package.version
-                    ))
                 raise RuntimeError("package recipe updated but version did not")
-            print("CONAN_TXT: package version updated: %s-%s => %s-%s" % (
-                master_txt.packages[name].name,
-                master_txt.packages[name].version,
-                package.name,
-                package.version
-                ))
         else:
             if master_txt.packages[name].version == package.version:
                 print("CONAN_TXT: package did not change: %s-%s" % (
-                    package.name,
-                    package.version
-                    ))
+                    package.name, package.version ))
             else:
                 print("CONAN_TXT: package updated with no recipe changes: %s-%s => %s-%s" % (
-                    master_txt.packages[name].name,
-                    master_txt.packages[name].version,
-                    package.name,
-                    package.version
-                    ))
-
-
-
+                    master_txt.packages[name].name, master_txt.packages[name].version,
+                    package.name, package.version))
 
 
 if __name__ == "__main__":
