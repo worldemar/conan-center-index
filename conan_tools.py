@@ -32,7 +32,7 @@ class PackageReference(object):
         self.conan.export([self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
-        return "name=%16s\tver=%16s\tmd5=%s\tsrc=%s" % (
+        return "name=%-16s\tver=%-16s\tmd5=%s\tsrc=%s" % (
             self.name,
             self.version,
             self.md5sum,
