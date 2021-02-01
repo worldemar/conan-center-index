@@ -37,11 +37,12 @@ class ConanfileTxt(object):
     def __init__(self, conan, filename):
         self.conan = conan
         self.packages = []
-        for line in open(filename, "rb").read().splitlines():
-            strline = line.decode("ascii")
-            if not self._is_package_reference(strline):
-                continue
-            self.packages.append(PackageReference(conan, strline))
+        if path.isfile(filename):
+            for line in open(filename, "rb").read().splitlines():
+                strline = line.decode("ascii")
+                if not self._is_package_reference(strline):
+                    continue
+                self.packages.append(PackageReference(conan, strline))
 
     def _is_package_reference(self, line):
         if line.startswith("#"):
