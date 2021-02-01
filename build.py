@@ -71,6 +71,21 @@ def detect_updated_packages(master_txt, branch_txt):
                 package.name,
                 package.version
                 ))
+        else:
+            if master_txt.packages[name].version == package.version:
+                print("CONAN_TXT: package did not change: %s-%s" % (
+                    package.name,
+                    package.version
+                    ))
+            else:
+                print("CONAN_TXT: package updated with no recipe changes: %s-%s => %s-%s" % (
+                    master_txt.packages[name].name,
+                    master_txt.packages[name].version,
+                    package.name,
+                    package.version
+                    ))
+
+
 
 
 
