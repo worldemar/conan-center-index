@@ -77,17 +77,12 @@ def detect_updated_packages(master_txt, branch_txt):
 if __name__ == "__main__":
     conan, upload_remote = prepare_environment()
 
-    print_section("Collect packages info from branch 'master'")
+    print_section("Collect packages info from branches")
 
-    # subprocess.check_call(["git", "checkout", "master"])
-    # conanfile_txt_master = collect_dependencies("master")
-    # print("Collected %d packages:" % len(conanfile_txt_master.packages))
-    # for name, package in conanfile_txt_master.packages.iteritems():
-    #     print(package)
-
-    # conanfile_txt_master = ConanfileTxt(conan, environ["CONAN_TXT"] + "-master")
     conanfile_txt_master = collect_dependencies("master")
     conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
+
+    print_section("Ensure recipe changes accompanied with version bump")
 
     detect_updated_packages(conanfile_txt_master, conanfile_txt_head)
 
