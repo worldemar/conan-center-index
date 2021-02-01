@@ -48,16 +48,16 @@ if __name__ == "__main__":
     subprocess.check_call(["git", "checkout", "master"])
     conanfile_txt_master = collect_dependencies("master")
     print("Collected %d packages:" % len(conanfile_txt_master.packages))
-    for p in conanfile_txt_master.packages:
-        print(p)
+    for name, package in conanfile_txt_master.packages:
+        print(package)
 
     print_section("Collect packages info from branch '%s'" % environ.get("GITHUB_HEAD_REF"))
 
     subprocess.check_call(["git", "checkout", environ.get("GITHUB_HEAD_REF")])
     conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
     print("Collected %d packages:" % len(conanfile_txt_head.packages))
-    for p in conanfile_txt_head.packages:
-        print(p)
+    for name, package in conanfile_txt_head.packages:
+        print(package)
 
     sys.exit(0)
 
