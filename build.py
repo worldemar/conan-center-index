@@ -54,10 +54,9 @@ def detect_updated_packages(master_txt, branch_txt):
             print("CONAN_TXT: package added %s" % package)
             continue
         if master_txt.packages[name].md5sum != package.md5sum:
-            print("CONAN_TXT: package recipe updated %s:\nmd5(master)=%s\nmd5(branch)=%s" % (
-                master_txt.packages[name].conanfile_path,
-                master_txt.packages[name].md5sum,
-                package.md5sum
+            print("CONAN_TXT: recipe updated for package\npackage(master)=%s\npackage(branch)=%s" % (
+                master_txt.packages[name],
+                package
                 ))
             if master_txt.packages[name].version == package.version:
                 print("CONAN_TXT: package recipe updated but version did not: %s-%s" % (
