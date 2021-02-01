@@ -4,7 +4,6 @@ import json
 import subprocess
 from environment import  prepare_environment
 from conan_tools import ConanfileTxt
-import hashlib
 
 
 def verify_packages(conan, installed, expected):
@@ -54,15 +53,11 @@ def detect_updated_packages(master_txt, branch_txt):
         if name not in master_txt.packages.keys():
             print("CONAN_TXT: package added %s" % package)
             continue
-        if master_txt.packages[name].conanfile != package.conanfile:
-            md5_master = hashlib.md5()
-            md5_master.update(master_txt.packages[name].conanfile)
-            md5_branch = hashlib.md5()
-            md5_branch.update(branch_txt.packages[name].conanfile)
+        if master_txt.packages[name].md5sum != package.md5sum:
             print("CONAN_TXT: package recipe updated %s:\nmd5(master)=%s\nmd5(branch)=%s" % (
                 master_txt.packages[name].conanfile_path,
-                md5_master.hexdigest(),
-                md5_branch.hexdigest()
+                master_txt.packages[name].md5sum,
+                package.md5sum
                 ))
             if master_txt.packages[name].version == package.version:
                 print("CONAN_TXT: package recipe updated but version did not: %s-%s" % (

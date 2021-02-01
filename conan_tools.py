@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from os import path
+import hashlib
 
 class PackageReference(object):
     def _possible_conanfile_locations(self, name, version):
@@ -22,14 +23,19 @@ class PackageReference(object):
             print("conanfile.py not found at %s" % self._possible_conanfile_locations)
             raise RuntimeError("Recipe for package %s could not be found" % (self.name + "/" + self.version))
         self.conanfile = open(self.conanfile_path, "rb").read()
+        md5 = hashlib.md5()
+        md5.update(self.conanfile)
+        self.md5sum = md5.hexdigest()
+
 
     def export(self):
         self.conan.export([self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
-        return "name=%s\tversion=%s\tsource=%s" % (
+        return "name=%s\tversion=%s\tmd5=%s\tsource=%s" % (
             self.name,
             self.version,
+            self.md5sum,
             self.conanfile_path
         )
 
