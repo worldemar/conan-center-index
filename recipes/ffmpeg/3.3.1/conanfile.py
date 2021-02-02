@@ -401,4 +401,3 @@ class FFMpegConan(ConanFile):
                 self.cpp_info.sharedlinkflags.append("-Wl,-Bsymbolic")
         elif self.settings.os == "Windows":
             self.cpp_info.system_libs.extend(['ws2_32', 'secur32', 'shlwapi', 'strmiids', 'vfw32', 'bcrypt'])
-
