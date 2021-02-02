@@ -2,6 +2,37 @@
 
 from os import path
 import hashlib
+import json
+
+
+def _is_package_reference(line):
+    if line.startswith("#"):
+        return False
+    if "# disable GHA" in line:
+        return False
+    if "/sdk120" in line:
+        return False
+    if "/sdkARM" in line:
+        return False
+    if "/system" in line:
+        return False
+    if "@" in line:
+        return False
+    if "/" not in line:
+        return False
+    return True
+
+
+def list_installed_packages(conan):
+    installed_packages = []
+    conan.search(["--json", "installed.json", "*"])
+    installed = json.load(open("installed.json","r"))
+    if installed["results"]:
+        for p in installed["results"][0]["items"]:
+            if _is_package_reference(p["recipe"]["id"]):
+                installed_packages.append(p["recipe"]["id"])
+    return installed_packages
+
 
 class PackageReference(object):
     def _possible_conanfile_locations(self, name, version):
@@ -46,37 +77,11 @@ class ConanfileTxt(object):
         if path.isfile(filename):
             for line in open(filename, "rb").read().splitlines():
                 strline = line.decode("ascii")
-                if not self._is_package_reference(strline):
+                if not _is_package_reference(strline):
                     continue
                 package = PackageReference(conan, strline)
                 self.packages[package.name] = package
 
-    def _is_package_reference(self, line):
-        if line.startswith("#"):
-            return False
-        if "# disable GHA" in line:
-            return False
-        if "/sdk120" in line:
-            return False
-        if "/sdkARM" in line:
-            return False
-        if "/system" in line:
-            return False
-        if "@" in line:
-            return False
-        if "/" not in line:
-            return False
-        return True
-
     def export(self):
         for package in self.packages:
             package.export()
-
-def list_installed_packages(conan):
-    installed_packages = []
-    conan.search(["--json", "installed.json", "*"])
-    installed = json.load(open("installed.json","r"))
-    if installed["results"]:
-        for p in installed["results"][0]["items"]:
-            installed_packages.append(p["recipe"]["id"])
-    return installed_packages

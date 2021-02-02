@@ -1,6 +1,5 @@
 from os import environ, path
 import sys
-import json
 import subprocess
 from environment import  prepare_environment
 from conan_tools import ConanfileTxt, list_installed_packages
@@ -89,25 +88,21 @@ if __name__ == "__main__":
                     "-s", "build_type=Release",
                     "--build", "missing"])
 
-    print_section("Building packages")
+    print_section("Enumerating installed packages")
     installed = list_installed_packages(conan)
 
+    print_section("Ensure all packages have mention in %s" % environ["CONAN_TXT"])
+    for pi in installed:
+        name, version = pi.split("/")
+        if name not in conanfile_txt_head.packages:
+            raise RuntimeError("Package %s is not mentioned in %s" % (name, environ["CONAN_TXT"]))
+        if version != conanfile_txt_head.packages[name].version:
+            raise RuntimeError("Package %s-%s mentioned in %s with different version %s-%s" % (
+                name, version, environ["CONAN_TXT"], name, conanfile_txt_head.packages[name].version))
+        package_txt = conanfile_txt_head.packages[name]
+        print("Package %s is confirmed by %s as %s-%s" % (
+            name, environ["CONAN_TXT"], name, version
+            ))
 
-
-    sys.exit(0)
-
-    expected_packages = packages_from_conanfile_txt(conan)
-    for p in expected_packages:
-        p.export()
-
-    conan.install([environ["CONAN_TXT"],
-                    "-if", "install_dir",
-                    "-pr", environ["CONAN_PROFILE"],
-                    "-s", "build_type=Release",
-                    "--build", "missing"])
-
-    installed = list_installed_packages(conan)
-    verify_packages(conan, installed, expected_packages)
-
-    if installed:
-        conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
+    print_section("Enumerating installed packages")
+    conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
