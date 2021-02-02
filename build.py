@@ -3,7 +3,7 @@ import sys
 import json
 import subprocess
 from environment import  prepare_environment
-from conan_tools import ConanfileTxt
+from conan_tools import ConanfileTxt, list_installed_packages
 
 
 def verify_packages(conan, installed, expected):
@@ -72,13 +72,27 @@ if __name__ == "__main__":
     conan, upload_remote = prepare_environment()
 
     print_section("Collect packages info from branches")
-
     conanfile_txt_master = collect_dependencies("master")
     conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
 
     print_section("Ensure recipe changes accompanied with version bump")
-
     detect_updated_packages(conanfile_txt_master, conanfile_txt_head)
+
+    print_section("Exporting all package recipes referenced in %s" % environ["CONAN_TXT"])
+    for _, package in conanfile_txt_head.packages.items():
+        package.export()
+
+    print_section("Building packages")
+    conan.install([environ["CONAN_TXT"],
+                    "-if", "install_dir",
+                    "-pr", environ["CONAN_PROFILE"],
+                    "-s", "build_type=Release",
+                    "--build", "missing"])
+
+    print_section("Building packages")
+    installed = list_installed_packages(conan)
+
+
 
     sys.exit(0)
 
