@@ -20,7 +20,6 @@ def verify_packages(conan, installed, expected):
         raise RuntimeError("Not all requirements have specified versions in %s" % environ["CONAN_TXT"])
 
 
-
 def diff_to_master():
     changed_files = []
     diff = subprocess.check_output("git diff master")
@@ -30,10 +29,12 @@ def diff_to_master():
             changed_files.append(two_files.split(" b/")[0])
     return changed_files
 
+
 def print_section(message):
     print("=" * 80)
     print("   " + message)
     print("=" * 80)
+
 
 def collect_dependencies(branch_name):
     subprocess.check_call(["git", "checkout", branch_name])
@@ -42,6 +43,7 @@ def collect_dependencies(branch_name):
     for _, package in conanfile_txt.packages.items():
         print(package)
     return conanfile_txt
+
 
 def detect_updated_packages(master_txt, branch_txt):
     """
