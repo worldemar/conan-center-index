@@ -3,7 +3,7 @@
 from os import path
 import hashlib
 import json
-
+from conans.errors import NotFoundException
 
 def _is_package_reference(line):
     if line.startswith("#"):
@@ -25,7 +25,10 @@ def _is_package_reference(line):
 
 def list_installed_packages(conan):
     installed_packages = []
-    conan.search(["--json", "installed.json", "*"])
+    try:
+        conan.search(["--json", "installed.json", "*"])
+    except NotFoundException:
+        return []
     installed = json.load(open("installed.json","r"))
     if installed["results"]:
         for p in installed["results"][0]["items"]:
@@ -85,3 +88,12 @@ class ConanfileTxt(object):
     def export(self):
         for package in self.packages:
             package.export()
+
+if __name__ == '__main__':
+    from environment import prepare_environment
+    from os import environ
+    conan, remote = prepare_environment()
+    txt = ConanfileTxt(conan, environ["CONAN_TXT"])
+    print(len(txt.packages))
+    for n,p in txt.packages.items():
+        print(p)
