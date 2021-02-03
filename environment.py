@@ -30,6 +30,9 @@ def prepare_environment():
     else:
         upload_remote = "trassir-staging"
 
+    # if "CONAN_PASSWORD" in environ:
+    #     conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
     if "CONAN_PASSWORD" in environ:
-        conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "trassir-ci-bot"])
+        conan.user(["--password", environ["CONAN_PASSWORD"], "--remote", upload_remote, "worldemar"])
+
     return conan, upload_remote
