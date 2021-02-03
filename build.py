@@ -41,8 +41,8 @@ def collect_dependencies(branch_name):
     # print_section("diff")
     # print(diff_to_master)
     # subprocess.check_call(["git", "--help"])
-    for n, v in environ:
-        print("%s=%s" % (n, v))
+    for n,v in environ.items():
+        print("%s=%s" % (n,v))
     subprocess.check_call(["ls", "-la"])
     subprocess.check_call(["git", "branch"])
     subprocess.check_call(["git", "checkout", branch_name], cwd=".")
