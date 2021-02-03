@@ -37,6 +37,8 @@ def print_section(message):
 
 
 def collect_dependencies(branch_name):
+    subprocess.check_call(["git"])
+    subprocess.check_call(["git", "--help"])
     subprocess.check_call(["git", "checkout", branch_name])
     conanfile_txt = ConanfileTxt(conan, environ["CONAN_TXT"])
     print("Collected %d packages:" % len(conanfile_txt.packages))
