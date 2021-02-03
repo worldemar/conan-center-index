@@ -58,7 +58,6 @@ class PackageReference(object):
         md5.update(self.conanfile)
         self.md5sum = md5.hexdigest()
 
-
     def export(self):
         self.conan.export([self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
@@ -69,6 +68,7 @@ class PackageReference(object):
             self.md5sum,
             self.conanfile_path
         )
+
 
 class ConanfileTxt(object):
     def __init__(self, conan, filename):
@@ -85,12 +85,3 @@ class ConanfileTxt(object):
     def export(self):
         for package in self.packages:
             package.export()
-
-if __name__ == '__main__':
-    from environment import prepare_environment
-    from os import environ
-    conan, remote = prepare_environment()
-    txt = ConanfileTxt(conan, environ["CONAN_TXT"])
-    print(len(txt.packages))
-    for n,p in txt.packages.items():
-        print(p)

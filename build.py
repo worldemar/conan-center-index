@@ -5,31 +5,6 @@ from environment import  prepare_environment
 from conan_tools import ConanfileTxt, list_installed_packages
 
 
-def verify_packages(conan, installed, expected):
-    missing_packages = []
-    for package in installed:
-        if not is_package_reference(package):
-            continue
-        if package in expected:
-            conan.search([package + "@_/_"])
-        else:
-            missing_packages.append(package)
-    if missing_packages:
-        print("Some packages were installed (possibly as dependencies) but has no fixed versions in %s:" % environ["CONAN_TXT"])
-        print(missing_packages)
-        raise RuntimeError("Not all requirements have specified versions in %s" % environ["CONAN_TXT"])
-
-
-def diff_to_master():
-    changed_files = []
-    diff = subprocess.check_output("git diff master")
-    for line in diff.decode("utf-8").splitlines():
-        if line.startswith("diff --git a/"):
-            two_files = line[len("diff --git a/"):]
-            changed_files.append(two_files.split(" b/")[0])
-    return changed_files
-
-
 def print_section(message):
     print("=" * 80)
     print("   " + message)
