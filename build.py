@@ -1,4 +1,4 @@
-from os import environ, path
+from os import environ, path, mkdir, chdir
 import sys
 import subprocess
 from environment import  prepare_environment
@@ -41,13 +41,13 @@ def collect_dependencies(branch_name):
     # print_section("diff")
     # print(diff_to_master)
     # subprocess.check_call(["git", "--help"])
-    for n,v in environ.items():
-        print("%s=%s" % (n,v))
-    subprocess.check_call(["ls", "-la"])
-    subprocess.check_call(["git", "branch"])
-    subprocess.check_call(["git", "clone", environ["GITHUB_SERVER_URL"] + "/" + environ["GITHUB_REPOSITORY"], branch_name])
-    subprocess.check_call(["ls", "-la", branch_name])
+    # for n,v in environ.items():
+    #     print("%s=%s" % (n,v))
+    mkdir(branch_name)
+    chdir(branch_name)
+    subprocess.check_call(["git", "clone", environ["GITHUB_SERVER_URL"] + "/" + environ["GITHUB_REPOSITORY"], "."])
     conanfile_txt = ConanfileTxt(conan, environ["CONAN_TXT"])
+    chdir("..")
     print("Collected %d packages:" % len(conanfile_txt.packages))
     for _, package in conanfile_txt.packages.items():
         print(package)
