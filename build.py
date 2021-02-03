@@ -75,10 +75,6 @@ def detect_updated_packages(master_txt, branch_txt):
 
 
 if __name__ == "__main__":
-    for n,v in environ.items():
-        print("%s=%s" % (n,v))
-    sys.exit(0)
-
     conan, upload_remote = prepare_environment()
 
     print_section("Collect packages info from branches")
