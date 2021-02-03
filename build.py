@@ -37,12 +37,6 @@ def print_section(message):
 
 
 def collect_dependencies(branch_name):
-    # diff_to_master = subprocess.check_output(["git", "diff", "master"])
-    # print_section("diff")
-    # print(diff_to_master)
-    # subprocess.check_call(["git", "--help"])
-    # for n,v in environ.items():
-    #     print("%s=%s" % (n,v))
     mkdir(branch_name)
     chdir(branch_name)
     subprocess.check_call(["git", "clone", environ["GITHUB_SERVER_URL"] + "/" + environ["GITHUB_REPOSITORY"], "."])
@@ -81,6 +75,10 @@ def detect_updated_packages(master_txt, branch_txt):
 
 
 if __name__ == "__main__":
+    for n,v in environ.items():
+        print("%s=%s" % (n,v))
+    sys.exit(0)
+
     conan, upload_remote = prepare_environment()
 
     print_section("Collect packages info from branches")
