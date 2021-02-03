@@ -120,5 +120,6 @@ if __name__ == "__main__":
             name, environ["CONAN_TXT"], name, version
             ))
 
-    print_section("Enumerating installed packages")
-    conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
+    print_section("Uploading packages")
+    if installed:
+        conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])

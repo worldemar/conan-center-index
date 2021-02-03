@@ -3,7 +3,7 @@
 from os import path
 import hashlib
 import json
-from conans.errors import NotFoundException
+
 
 def _is_package_reference(line):
     if line.startswith("#"):
@@ -25,10 +25,7 @@ def _is_package_reference(line):
 
 def list_installed_packages(conan):
     installed_packages = []
-    try:
-        conan.search(["--json", "installed.json", "*"])
-    except NotFoundException:
-        return []
+    conan.search(["--json", "installed.json", "*"])
     installed = json.load(open("installed.json","r"))
     if installed["results"]:
         for p in installed["results"][0]["items"]:
