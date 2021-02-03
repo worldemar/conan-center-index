@@ -45,7 +45,8 @@ def collect_dependencies(branch_name):
         print("%s=%s" % (n,v))
     subprocess.check_call(["ls", "-la"])
     subprocess.check_call(["git", "branch"])
-    subprocess.check_call(["git", "checkout", branch_name], cwd=".")
+    subprocess.check_call(["git", "clone", environ["GITHUB_SERVER_URL"] + "/" + environ["GITHUB_REPOSITORY"], branch_name])
+    subprocess.check_call(["ls", "-la", branch_name])
     conanfile_txt = ConanfileTxt(conan, environ["CONAN_TXT"])
     print("Collected %d packages:" % len(conanfile_txt.packages))
     for _, package in conanfile_txt.packages.items():
