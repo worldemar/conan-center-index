@@ -37,6 +37,7 @@ def print_section(message):
 
 
 def collect_dependencies(branch_name):
+    print_section("Collect packages info from branch %s" % branch_name)
     mkdir(branch_name)
     chdir(branch_name)
     subprocess.check_call(["git", "clone", environ["GITHUB_SERVER_URL"] + "/" + environ["GITHUB_REPOSITORY"], "."])
@@ -77,7 +78,6 @@ def detect_updated_packages(master_txt, branch_txt):
 if __name__ == "__main__":
     conan, upload_remote = prepare_environment()
 
-    print_section("Collect packages info from branches")
     conanfile_txt_master = collect_dependencies("master")
     conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
 
