@@ -23,7 +23,7 @@ def prepare_environment():
     conan.remote(["add", "trassir-staging", "https://api.bintray.com/conan/worldemar/cci-pr", "True"])
     conan.remote(["add", "trassir-public", "https://api.bintray.com/conan/worldemar/cci-master", "True"])
 
-    # conan.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
+    conan.remote(["add", "conan-center", "https://conan.bintray.com", "True"])
 
     if environ.get("GITHUB_HEAD_REF", "master") == "master":
         upload_remote = "trassir-public"
