@@ -46,6 +46,7 @@ class PackageReference(object):
         for loc in self._possible_conanfile_locations():
             if path.isfile(loc):
                 self.conanfile_path = loc
+                break
         if not self.conanfile_path:
             print("conanfile.py not found at {locs}".format(locs=self._possible_conanfile_locations()))
             raise RuntimeError("Recipe for package {pkg} could not be found".format(pkg=self.name + "/" + self.version))
