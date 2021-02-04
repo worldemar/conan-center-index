@@ -31,10 +31,10 @@ def list_installed_packages(conan):
 
 
 class PackageReference(object):
-    def _possible_conanfile_locations(self, name, version):
+    def _possible_conanfile_locations(self):
         return [
-            path.join("recipes", name, version, "conanfile.py"),
-            path.join("recipes", name, "all", "conanfile.py"),
+            path.join("recipes", self.name, self.version, "conanfile.py"),
+            path.join("recipes", self.name, "all", "conanfile.py"),
         ]
 
     def __init__(self, conan, strref):
@@ -43,7 +43,7 @@ class PackageReference(object):
             raise RuntimeError("package reference '%s' does not contain slash" % strref)
         self.name, self.version = strref.split("/")
         self.conanfile_path = None
-        for loc in self._possible_conanfile_locations(self.name, self.version):
+        for loc in self._possible_conanfile_locations():
             if path.isfile(loc):
                 self.conanfile_path = loc
         if not self.conanfile_path:
