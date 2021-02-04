@@ -6,7 +6,7 @@ virtualrunenv
 axtls/1.5.3
 boost/1.64.0
 bzip2/1.0.8
-c-ares/1.15.0-dssl1
+c-ares/1.15.0.dssl1
 ffmpeg/3.3.1
 glew/2.1.0@bincrafters/stable
 icu/63.2
