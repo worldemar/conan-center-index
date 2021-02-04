@@ -25,7 +25,7 @@ class CAresConan(ConanFile):
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
-        os.rename("c-ares-cares-{}".format(self.version.replace(".", "_")), "source_folder")
+        os.rename("c-ares-cares-{}".format(self.version.replace(".", "_").replace(".dssl1", "")), "source_folder")
 
     def _cmake_configure(self):
         cmake = CMake(self)
