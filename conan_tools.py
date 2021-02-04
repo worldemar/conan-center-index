@@ -70,12 +70,13 @@ class ConanfileTxt(object):
     def __init__(self, conan, filename):
         self.conan = conan
         self.packages = {}
-        for line in open(filename, "rb").read().splitlines():
-            strline = line.decode("ascii")
-            if not _is_gha_buildable(strline):
-                continue
-            package = PackageReference(conan, strline)
-            self.packages[package.name] = package
+        with open(filename) as f:
+            for line in f.read().splitlines():
+                strline = line.decode("ascii")
+                if not _is_gha_buildable(strline):
+                    continue
+                package = PackageReference(conan, strline)
+                self.packages[package.name] = package
 
     def export(self):
         for package in self.packages:
