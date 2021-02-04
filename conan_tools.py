@@ -40,15 +40,15 @@ class PackageReference(object):
     def __init__(self, conan, strref):
         self.conan = conan
         if "/" not in strref:
-            raise RuntimeError("package reference '%s' does not contain slash" % strref)
+            raise RuntimeError("package reference '{ref}' does not contain slash".format(ref=strref))
         self.name, self.version = strref.split("/")
         self.conanfile_path = None
         for loc in self._possible_conanfile_locations():
             if path.isfile(loc):
                 self.conanfile_path = loc
         if not self.conanfile_path:
-            print("conanfile.py not found at %s" % self._possible_conanfile_locations())
-            raise RuntimeError("Recipe for package %s could not be found" % (self.name + "/" + self.version))
+            print("conanfile.py not found at {locs}".format(locs=self._possible_conanfile_locations()))
+            raise RuntimeError("Recipe for package {pkg} could not be found".format(pkg=self.name + "/" + self.version))
         self.conanfile = open(self.conanfile_path, "rb").read()
         md5 = hashlib.md5()
         md5.update(self.conanfile)
@@ -58,11 +58,11 @@ class PackageReference(object):
         self.conan.export([self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
-        return "name=%-16s\tver=%-16s\tmd5=%s\tsrc=%s" % (
-            self.name,
-            self.version,
-            self.md5sum,
-            self.conanfile_path
+        return "name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}".format(
+            name=self.name,
+            ver=self.version,
+            md5=self.md5sum,
+            src=self.conanfile_path
         )
 
 
