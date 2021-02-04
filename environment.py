@@ -41,12 +41,11 @@ def prepare_environment():
     else:
         upload_remote = "trassir-staging"
 
-    if custom_remotes:
-        if "CONAN_PASSWORD" in environ:
+    if "CONAN_PASSWORD" in environ:
+        if custom_remotes:
             conan.user(["--password", environ["CONAN_PASSWORD"],
                         "--remote", upload_remote, environ["REMOTES_UPLOAD_USER"]])
-    else:
-        if "CONAN_PASSWORD" in environ:
+        else:
             conan.user(["--password", environ["CONAN_PASSWORD"],
                         "--remote", upload_remote, "trassir-ci-bot"])
 
