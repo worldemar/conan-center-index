@@ -63,11 +63,12 @@ if __name__ == "__main__":
     for _, package in conanfile_txt_head.packages.items():
         package.export()
 
-    print_section("Building packages")
-    conan.install([environ["CONAN_TXT"],
+    for build_type in ["Debug", "Release"]:
+        print_section("Building packages for build_type=%s" % build_type)
+        conan.install([environ["CONAN_TXT"],
                     "-if", "install_dir",
                     "-pr", environ["CONAN_PROFILE"],
-                    "-s", "build_type=Release",
+                    "-s", "build_type=%s" % build_type,
                     "--build", "missing"])
 
     print_section("Enumerating installed packages")
