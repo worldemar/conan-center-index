@@ -5,14 +5,10 @@ import hashlib
 import json
 
 
-def _is_package_reference(line):
+def _is_gha_buildable(line):
     if line.startswith("#"):
         return False
     if "# disable GHA" in line:
-        return False
-    if "/sdk120" in line:
-        return False
-    if "/sdkARM" in line:
         return False
     if "/system" in line:
         return False
@@ -29,7 +25,7 @@ def list_installed_packages(conan):
     installed = json.load(open("installed.json","r"))
     if installed["results"]:
         for p in installed["results"][0]["items"]:
-            if _is_package_reference(p["recipe"]["id"]):
+            if _is_gha_buildable(p["recipe"]["id"]):
                 installed_packages.append(p["recipe"]["id"])
     return installed_packages
 
@@ -77,7 +73,7 @@ class ConanfileTxt(object):
         if path.isfile(filename):
             for line in open(filename, "rb").read().splitlines():
                 strline = line.decode("ascii")
-                if not _is_package_reference(strline):
+                if not _is_gha_buildable(strline):
                     continue
                 package = PackageReference(conan, strline)
                 self.packages[package.name] = package
