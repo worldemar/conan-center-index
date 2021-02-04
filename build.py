@@ -20,7 +20,7 @@ def collect_dependencies(branch_name):
     subprocess.check_call(["git", "branch"])
     conanfile_txt = ConanfileTxt(conan, environ["CONAN_TXT"])
     chdir("..")
-    print("Collected %d packages:" % len(conanfile_txt.packages))
+    print("Collected {num} packages:".format(num=len(conanfile_txt.packages)))
     for _, package in conanfile_txt.packages.items():
         print(package)
     return conanfile_txt
