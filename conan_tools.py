@@ -71,8 +71,7 @@ class ConanfileTxt(object):
         self.conan = conan
         self.packages = {}
         with open(filename) as f:
-            for line in f.read().splitlines():
-                strline = line.decode("ascii")
+            for strline in f.read().splitlines():
                 if not _is_gha_buildable(strline):
                     continue
                 package = PackageReference(conan, strline)
