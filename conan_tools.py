@@ -68,9 +68,11 @@ class PackageReference(object):
 
 
 class ConanfileTxt(object):
-    def __init__(self, conan, filename):
+    def __init__(self, conan, filename, conanfile_required):
         self.conan = conan
         self.packages = {}
+        if conanfile_required and not path.isfile(filename):
+            raise RuntimeError("File {filename} is required, but was not found")
         with open(filename) as f:
             for strline in f.read().splitlines():
                 if not _is_gha_buildable(strline):
