@@ -25,8 +25,15 @@ jobs:
   ci:
     strategy:
       matrix:
-        build: ['linux-gcc8', 'macos']
+        build: ['windows-2019', 'linux-gcc8', 'macos']
         include:
+          - build: 'windows-2019'
+            os: 'windows-2019'
+            compiler: 'vs'
+            compiler_version: '16'
+            vs_runtimes: 'MD,MT'
+            conanpath: 'trassir/win32-16'
+            build_types: 'Release,Debug'
           - build: 'linux-gcc8'
             os: 'ubuntu-latest'
             archs: 'x86_64'
