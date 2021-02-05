@@ -55,8 +55,8 @@ if __name__ == "__main__":
     conan, upload_remote = prepare_environment()
 
     conanfile_txt_master = collect_dependencies("master")
-    if "GITHUB_HEAD_REF" in environ:
-        conanfile_txt_head = collect_dependencies(environ.get("GITHUB_HEAD_REF"))
+    if "GITHUB_HEAD_REF" in environ and environ["GITHUB_HEAD_REF"] != '':
+        conanfile_txt_head = collect_dependencies(environ["GITHUB_HEAD_REF"])
     else:
         conanfile_txt_head = conanfile_txt_master
 
