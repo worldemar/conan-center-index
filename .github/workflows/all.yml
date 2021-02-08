@@ -4,14 +4,16 @@ on:
   pull_request:
     paths:
       - 'recipes/**'
-      - 'build.py'
+      - 'trassir/**'
+      - '*.py'
       - '.github/workflows/all.yml'
   push:
     branches:
       - master
     paths:
       - 'recipes/**'
-      - 'build.py'
+      - 'trassir/**'
+      - '*.py'
       - '.github/workflows/all.yml'
 
 env:
