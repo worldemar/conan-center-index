@@ -24,7 +24,7 @@ env:
   IS_PURE_C: true
 
 jobs:
-  ci:
+  conan:
     strategy:
       matrix:
         build: ['windows-2019-release',
