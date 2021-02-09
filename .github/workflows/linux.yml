@@ -1,4 +1,4 @@
-name: CI
+name: Linux CI
 
 on:
   pull_request:
@@ -24,7 +24,7 @@ env:
   IS_PURE_C: true
 
 jobs:
-  conan:
+  linux:
     strategy:
       matrix:
         build: ['linux-gcc8-release',
