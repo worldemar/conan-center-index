@@ -31,16 +31,16 @@ jobs:
                 'linux-gcc8-debug',
                 ]
         include:
-          - build: 'linux-gcc8-release'
-            os: 'ubuntu-latest'
-            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
-            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
-            build_types: 'Release'
           - build: 'linux-gcc8-debug'
             os: 'ubuntu-latest'
             conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
             conan_profile: 'trassir/lnvr-gcc8/conanprofile'
             build_types: 'Debug'
+          - build: 'linux-gcc8-release'
+            os: 'ubuntu-latest'
+            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
+            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
+            build_types: 'Release'
     runs-on: ${{ matrix.os }}
     container: 'trassiross/conan-gcc8'
     steps:
