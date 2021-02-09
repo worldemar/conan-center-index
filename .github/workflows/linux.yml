@@ -25,7 +25,6 @@ env:
 
 jobs:
   conan:
-    container: 'trassiross/conan-gcc8'
     strategy:
       matrix:
         build: ['linux-gcc8-release',
@@ -43,6 +42,7 @@ jobs:
             conan_profile: 'trassir/lnvr-gcc8/conanprofile'
             build_types: 'Debug'
     runs-on: ${{ matrix.os }}
+    container: 'trassiross/conan-gcc8'
     steps:
       - name: Configure git
         run: git config --global core.autocrlf false
