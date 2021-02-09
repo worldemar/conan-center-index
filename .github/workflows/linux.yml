@@ -49,10 +49,8 @@ jobs:
         with:
           path: sources
       - name: Configure git
-        run: git config core.autocrlf false
+        run: cd sources && git config core.autocrlf false
         shell: bash
-        with:
-          path: sources
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
