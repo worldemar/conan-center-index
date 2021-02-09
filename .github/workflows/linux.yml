@@ -24,8 +24,8 @@ env:
   IS_PURE_C: true
 
 jobs:
-  container: 'trassiross/conan-gcc8'
   conan:
+    container: 'trassiross/conan-gcc8'
     strategy:
       matrix:
         build: ['linux-gcc8-release',
