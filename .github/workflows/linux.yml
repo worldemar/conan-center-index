@@ -6,7 +6,7 @@ on:
       - 'recipes/**'
       - 'trassir/**'
       - '*.py'
-      - '.github/workflows/all.yml'
+      - '.github/workflows/linux.yml'
   push:
     branches:
       - master
@@ -14,7 +14,7 @@ on:
       - 'recipes/**'
       - 'trassir/**'
       - '*.py'
-      - '.github/workflows/all.yml'
+      - '.github/workflows/linux.yml'
 
 env:
   CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
