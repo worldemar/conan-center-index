@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - 'recipes/**'
+      - 'trassir/**'
+      - '*.py'
+      - '.github/workflows/all.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - 'recipes/**'
+      - 'trassir/**'
+      - '*.py'
+      - '.github/workflows/all.yml'
+
+env:
+  CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+  REMOTES_MASTER: ${{ secrets.REMOTES_MASTER }}
+  REMOTES_STAGING: ${{ secrets.REMOTES_STAGING }}
+  REMOTES_UPLOAD_USER: ${{ secrets.REMOTES_UPLOAD_USER }}
+  IS_PURE_C: true
+
+jobs:
+  container: 'trassiross/conan-gcc8'
+  conan:
+    strategy:
+      matrix:
+        build: ['linux-gcc8-release',
+                'linux-gcc8-debug',
+                ]
+        include:
+          - build: 'linux-gcc8-release'
+            os: 'ubuntu-latest'
+            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
+            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
+            build_types: 'Release'
+          - build: 'linux-gcc8-debug'
+            os: 'ubuntu-latest'
+            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
+            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
+            build_types: 'Debug'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Configure git
+        run: git config --global core.autocrlf false
+        shell: bash
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: sources
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+      - name: Build and Upload
+        run: |
+          pip install conan
+          python sources/build.py
+        env:
+          CONAN_TXT: ${{ matrix.conan_txt }}
+          CONAN_PROFILE: ${{ matrix.conan_profile }}
+          CONAN_BUILD_TYPES: ${{ matrix.build_types }}
+          CONAN_ARCHS: ${{ matrix.archs }}
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment-target }}
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
