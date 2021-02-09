@@ -29,8 +29,6 @@ jobs:
       matrix:
         build: ['windows-2019-release',
                 'windows-2019-debug',
-                'linux-gcc8-release',
-                'linux-gcc8-debug',
                 'macos-release'
                 ]
         include:
@@ -44,18 +42,6 @@ jobs:
             conan_txt: 'trassir/win32-vc16/conanfile.txt'
             conan_profile: 'trassir/win32-vc16/conanprofile.debug'
             build_types: 'Debug'
-          - build: 'linux-gcc8-release'
-            os: 'ubuntu-latest'
-            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
-            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
-            build_types: 'Release'
-            container: 'trassiross/conan-gcc8'
-          - build: 'linux-gcc8-debug'
-            os: 'ubuntu-latest'
-            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
-            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
-            build_types: 'Debug'
-            container: 'trassiross/conan-gcc8'
           - build: 'macos-release'
             os: 'macos-10.15'
             conan_txt: 'trassir/mac-clang11/conanfile.txt'
