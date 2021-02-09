@@ -1,3 +1,54 @@
 [generators]
 cmake
 virtualrunenv
+
+[requires]
+openssl/1.1.1d
+axtls/1.5.3
+boost/1.69.0
+bzip2/1.0.8 # global bzip2 dependency 
+c-ares/1.15.0
+etcd-grpc/4.0.0
+ffmpeg/3.3.1
+#glew/2.1.0
+jansson/2.12
+jsoncpp/1.8.3
+libcurl/7.64.1
+#libjpeg/9c #global libjpeg dependency
+libpng/1.6.37 # global libpng dependency
+libpq/11.5
+miniupnpc/2.1
+openal/1.20.1
+opencv/2.4.13.5
+# pjsip/2.8@dssl/stable
+qt/5.14.1
+qtwebkit/5.212.0-alpha4
+#sip/4.19.3
+zlib/1.2.11 # global zlib dependency (override for openssl and curl)
+
+[options]
+ffmpeg:pulse=False
+ffmpeg:vdpau=False
+ffmpeg:xcb=False
+opencv:jasper=False
+opencv:openexr=False
+opencv:tiff=False
+
+qt:openssl=True
+qt:qtimageformats=True
+qt:qtmultimedia=True
+qt:qtscript=True
+qt:qtsvg=True
+qt:qttools=True
+qt:qtx11extras=True            
+
+qt:with_glib=False
+qt:with_harfbuzz=not_used
+qt:with_doubleconversion=qt
+qt:with_icu=False
+qt:with_mysql=False
+qt:with_pcre2=False                    
+qt:with_sdl2=False
+qt:with_zstd=False
+
+*:shared=True
