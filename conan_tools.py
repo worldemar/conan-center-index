@@ -1,8 +1,20 @@
 #!/usr/bin/env python
 
-from os import path
+from os import path, environ
+import subprocess
 import hashlib
 import json
+
+
+def conan_run(args):
+    cmd = ["conan"]
+    if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
+        cmd = ['docker', 'run', '--rm'
+            '-v', path.abspath('.') + '/sources:/home/conan',
+            'trassiross/conan-gcc8',
+            ] + cmd
+    cmd += args
+    subprocess.check_call(cmd)
 
 
 def _is_gha_buildable(line):
