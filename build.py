@@ -55,10 +55,12 @@ if __name__ == "__main__":
     import subprocess
     subprocess.check_call(['docker', 'run',
         '-v', path.abspath('.') + ':/home/conan',
+        '-w', '/home/conan/sources',
         'trassiross/conan-gcc8',
         "pwd"])
     subprocess.check_call(['docker', 'run',
         '-v', path.abspath('.') + ':/home/conan',
+        '-w', '/home/conan/sources',
         'trassiross/conan-gcc8',
          "ls", "-la"])
     # subprocess.check_call(["git", "--help"])
