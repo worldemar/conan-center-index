@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
-from os import path, environ
+from os import path, environ, makepath
 import subprocess
 import hashlib
 import json
 
 
 def conan_run(args):
+    if not path.exists(".conan"):
+        makepath(".conan")
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
         cmd = ['docker', 'run', '--rm',
