@@ -42,7 +42,7 @@ jobs:
             conan_profile: 'trassir/lnvr-gcc8/conanprofile'
             build_types: 'Release'
     runs-on: ${{ matrix.os }}
-    container: 'trassiross/conan-gcc8'
+    # container: 'trassiross/conan-gcc8'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
