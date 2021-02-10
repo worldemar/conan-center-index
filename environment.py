@@ -20,7 +20,7 @@ def prepare_environment():
     conan_run(["config", "install", "https://github.com/trassir/conan-config.git"])
 
     # TODO: delete this after https://github.com/trassir/conan-config/pull/11
-    conan.remote(["remove", "bintray-trassir"])
+    conan_run(["remote", "remove", "bintray-trassir"])
 
     if custom_remotes:
         # allow download from official repos
