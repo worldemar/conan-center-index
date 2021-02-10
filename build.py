@@ -54,6 +54,7 @@ def detect_updated_packages(master_txt, branch_txt):
 if __name__ == "__main__":
     import subprocess
     subprocess.check_call(["conan", "--help"])
+    subprocess.check_call(["git", "--help"])
     sys.exit(1)
 
     conan, upload_remote = prepare_environment()
