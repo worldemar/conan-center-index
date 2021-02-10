@@ -53,12 +53,14 @@ def detect_updated_packages(master_txt, branch_txt):
 
 if __name__ == "__main__":
     import subprocess
-    subprocess.check_call(['docker', 'run', 'trassiross/conan-gcc8',
-        '-v', path.abspath('.') + ':/home/conan', "pwd"])
-    subprocess.check_call(['docker', 'run', 'trassiross/conan-gcc8',
-        '-v', path.abspath('.') + ':/home/conan', "ls", "-la"])
-    subprocess.check_call(['docker', 'run', 'trassiross/conan-gcc8',
-        '-v', path.abspath('.') + ':/home/conan', "ls", "-la", "sources"])
+    subprocess.check_call(['docker', 'run',
+        '-v', path.abspath('.') + ':/home/conan',
+        'trassiross/conan-gcc8',
+        "pwd"])
+    subprocess.check_call(['docker', 'run',
+        '-v', path.abspath('.') + ':/home/conan',
+        'trassiross/conan-gcc8',
+         "ls", "-la"])
     # subprocess.check_call(["git", "--help"])
     sys.exit(1)
 
