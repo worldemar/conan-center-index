@@ -9,7 +9,7 @@ import json
 def conan_run(args):
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
-        cmd = ['docker', 'run', '--rm'
+        cmd = ['docker', 'run', '--rm',
             '-v', path.abspath('.') + '/sources:/home/conan',
             'trassiross/conan-gcc8',
             ] + cmd
