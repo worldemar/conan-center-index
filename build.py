@@ -1,8 +1,8 @@
-from os import environ, path, mkdir, chdir
+from os import environ, mkdir, chdir
 import sys
 import subprocess
 from environment import  prepare_environment
-from conan_tools import ConanfileTxt, list_installed_packages
+from conan_tools import ConanfileTxt, list_installed_packages, conan_run
 
 
 def print_section(message):
@@ -52,21 +52,11 @@ def detect_updated_packages(master_txt, branch_txt):
 
 
 if __name__ == "__main__":
-    import subprocess
-    subprocess.check_call(['docker', 'run',
-        '-v', path.abspath('.') + '/sources:/home/conan',
-#        '-w', '/home/conan/sources',
-        'trassiross/conan-gcc8',
-        "pwd"])
-    subprocess.check_call(['docker', 'run',
-        '-v', path.abspath('.') + '/sources:/home/conan',
-#        '-w', '/home/conan/sources',
-        'trassiross/conan-gcc8',
-         "ls", "-la"])
-    # subprocess.check_call(["git", "--help"])
-    sys.exit(1)
+    upload_remote = prepare_environment()
 
-    conan, upload_remote = prepare_environment()
+    conan_run("--version")
+
+    sys.exit(0)
 
     conanfile_txt_master = collect_dependencies("master")
     if "GITHUB_HEAD_REF" in environ and environ["GITHUB_HEAD_REF"] != '':

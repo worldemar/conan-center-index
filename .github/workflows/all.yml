@@ -27,11 +27,25 @@ jobs:
   conan:
     strategy:
       matrix:
-        build: ['windows-2019-release',
+        build: ['linux-gcc8-release',
+                'linux-gcc8-debug',
+                'windows-2019-release',
                 'windows-2019-debug',
                 'macos-release'
                 ]
         include:
+          - build: 'linux-gcc8-debug'
+            os: 'ubuntu-latest'
+            docker_image: 'trassiross/conan-gcc8'
+            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
+            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
+            build_types: 'Debug'
+          - build: 'linux-gcc8-release'
+            os: 'ubuntu-latest'
+            docker_image: 'trassiross/conan-gcc8'
+            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
+            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
+            build_types: 'Release'
           - build: 'windows-2019-release'
             os: 'windows-2019'
             conan_txt: 'trassir/win32-vc16/conanfile.txt'
@@ -49,6 +63,7 @@ jobs:
             build_types: 'Release'
             deployment-target: '10.14'
             xcode_version: '11.4'
+
     runs-on: ${{ matrix.os }}
     steps:
       - name: Configure git
@@ -70,6 +85,6 @@ jobs:
           CONAN_TXT: ${{ matrix.conan_txt }}
           CONAN_PROFILE: ${{ matrix.conan_profile }}
           CONAN_BUILD_TYPES: ${{ matrix.build_types }}
-          CONAN_ARCHS: ${{ matrix.archs }}
+          CONAN_DOCKER_IMAGE: ${{ matrix.docker_image }}
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment-target }}
           DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
