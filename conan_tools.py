@@ -12,6 +12,7 @@ def conan_run(args):
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
         cmd = ['docker', 'run',
             '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
+            '-v', environ['GITHUB_WORKSPACE'] + '/conanhome:/home/conan/.conan',
             'trassiross/conan-gcc8',
             ] + cmd
     cmd += args
