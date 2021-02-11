@@ -12,6 +12,7 @@ def conan_run(args):
         if not path.exists('.conan-docker'):
             mkdir('.conan-docker', mode=0o777)
             chmod('.conan-docker', 0o777)
+            chmod('sources', 0o777)
         cmd = ['docker', 'run',
             '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
             '-v', environ['GITHUB_WORKSPACE'] + '/.conan-docker:/home/conan/.conan',
