@@ -52,6 +52,11 @@ def detect_updated_packages(master_txt, branch_txt):
 
 
 if __name__ == "__main__":
+    for k,v in environ.items():
+        print(k,v)
+
+    sys.exit(0)
+
     upload_remote = prepare_environment()
 
     conanfile_txt_master = collect_dependencies("master")
