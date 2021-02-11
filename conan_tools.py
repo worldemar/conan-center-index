@@ -83,6 +83,7 @@ class PackageReference(object):
         self.md5sum = md5.hexdigest()
 
     def export(self):
+        subprocess.check_call(["ls", "-la"])
         conan_run(["export", self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
