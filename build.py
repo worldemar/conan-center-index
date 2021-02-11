@@ -78,16 +78,20 @@ if __name__ == "__main__":
     installed = list_installed_packages()
 
     print_section("Ensure all packages have mention in {txt}".format(txt=environ["CONAN_TXT"]))
+    txt_needs_updating = False
     for pi in installed:
         name, version = pi.split("/")
         if name not in conanfile_txt_head.packages:
-            raise RuntimeError("Package {name} is not mentioned in {txt}".format(name=name, txt=environ["CONAN_TXT"]))
+            print("Package {name} is not mentioned in {txt}".format(name=name, txt=environ["CONAN_TXT"]))
         if version != conanfile_txt_head.packages[name].version:
-            raise RuntimeError("Package {name}-{ver} mentioned in {txt} with different version {name}-{ver_txt}".format(
+            print("Package {name}-{ver} is mentioned in {txt} with different version {name}-{ver_txt}".format(
                 name=name, ver=version, txt=environ["CONAN_TXT"], ver_txt=conanfile_txt_head.packages[name].version))
         package_txt = conanfile_txt_head.packages[name]
         print("Package {name} is confirmed by {txt} as {name}-{ver}".format(
             name=name, txt=environ["CONAN_TXT"], ver=version))
+    if txt_needs_updating:
+        raise RuntimeError("{txt} needs updating, see packages listed above".format(
+            txt=environ["CONAN_TXT"]))
 
     print_section("Uploading packages")
     if installed:
