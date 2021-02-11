@@ -15,7 +15,7 @@ def conan_run(args):
             ['docker', 'run', '--rm',
                 '-v', path.abspath('.') + '/sources:/home/conan',
                 'trassiross/conan-gcc8',
-                'mkdir ~/.conan'
+                'mkdir',  '~/.conan'
                 ])
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
