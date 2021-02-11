@@ -12,14 +12,20 @@ def conan_run(args):
         #with open(".conan/conan.conf", "wb") as f:
         #    f.write("".encode("ascii"))
         subprocess.check_call(
-            ['docker', 'run', '--rm',
+            ['docker', 'run',
+                '-v', path.abspath('.') + '/sources:/home/conan',
+                'trassiross/conan-gcc8',
+                'ls',  '--la'
+                ])
+        subprocess.check_call(
+            ['docker', 'run',
                 '-v', path.abspath('.') + '/sources:/home/conan',
                 'trassiross/conan-gcc8',
                 'mkdir',  '/home/conan/.conan'
                 ])
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
-        cmd = ['docker', 'run', '--rm',
+        cmd = ['docker', 'run',
             '-v', path.abspath('.') + '/sources:/home/conan',
             'trassiross/conan-gcc8',
             ] + cmd
