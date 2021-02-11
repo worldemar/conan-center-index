@@ -54,6 +54,8 @@ def detect_updated_packages(master_txt, branch_txt):
 if __name__ == "__main__":
     conan_run(["--version"])
 
+    subprocess.check_call(['chmod', '-R', '777', 'sources'])
+
     upload_remote = prepare_environment()
 
     conan_run(["--version"])
