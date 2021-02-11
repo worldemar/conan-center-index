@@ -63,7 +63,6 @@ jobs:
             build_types: 'Release'
             deployment-target: '10.14'
             xcode_version: '11.4'
-
     runs-on: ${{ matrix.os }}
     steps:
       - name: Configure git
@@ -80,9 +79,7 @@ jobs:
       - name: Build and Upload
         run: |
           pip install --upgrade conan
-          chmod -R 777 sources
-          mkdir .conan-docker
-          chmod 777 .conan-docker
+          mkdir -m 777 .conan-docker
           python sources/build.py
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}

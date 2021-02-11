@@ -8,12 +8,11 @@ import json
 
 def conan_run(args):
     cmd = ["conan"]
-
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
         cmd = ['docker', 'run',
             '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
             '-v', environ['GITHUB_WORKSPACE'] + '/.conan-docker:/home/conan/.conan',
-            'trassiross/conan-gcc8',
+            environ["CONAN_DOCKER_IMAGE"],
             ] + cmd
     cmd += args
     subprocess.check_call(cmd)
@@ -69,7 +68,9 @@ class PackageReference(object):
         self.md5sum = md5.hexdigest()
 
     def export(self):
-        conan_run(["export", "sources/" + self.conanfile_path, self.name + "/" + self.version + "@_/_"])
+        conan_run(["export",
+            path.join("sources", self.conanfile_path),
+            self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
         return "name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}".format(
