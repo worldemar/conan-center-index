@@ -11,7 +11,7 @@ def conan_run(args):
         makedirs(".conan")
         with open(".conan/conan.conf", "wb") as f:
             f.write("".encode("ascii"))
-        subprocess.check_call(["ls", "-la", "/home/conan/.conan/conan.conf"])
+        subprocess.check_call(["ls", "-la", ".conan/conan.conf"])
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
         cmd = ['docker', 'run', '--rm',
