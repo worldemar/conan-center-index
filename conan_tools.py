@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from os import path, environ, mkdir
+from os import path, environ, mkdir, chmod
 import subprocess
 import hashlib
 import json
