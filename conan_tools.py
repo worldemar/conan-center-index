@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from os import path, environ
+from os import path, environ, mkdir
 import subprocess
 import hashlib
 import json
@@ -9,6 +9,8 @@ import json
 def conan_run(args):
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
+        if not path.exists('.conan-docker'):
+            mkdir(path='.conan-docker')
         cmd = ['docker', 'run',
             '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
             '-v', environ['GITHUB_WORKSPACE'] + '/.conan-docker:/home/conan/.conan',

@@ -79,7 +79,6 @@ jobs:
       - name: Build and Upload
         run: |
           pip install --upgrade conan
-          mkdir -m 777 .conan-docker
           python sources/build.py
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}
