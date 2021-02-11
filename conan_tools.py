@@ -84,7 +84,7 @@ class PackageReference(object):
 
     def export(self):
         subprocess.check_call(["ls", "-la"])
-        conan_run(["export", self.conanfile_path, self.name + "/" + self.version + "@_/_"])
+        conan_run(["export", "sources/" + self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
         return "name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}".format(
