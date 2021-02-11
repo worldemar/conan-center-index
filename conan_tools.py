@@ -83,7 +83,7 @@ class PackageReference(object):
         self.md5sum = md5.hexdigest()
 
     def export(self):
-        self.conan.export([self.conanfile_path, self.name + "/" + self.version + "@_/_"])
+        conan_run(["export", self.conanfile_path, self.name + "/" + self.version + "@_/_"])
 
     def __str__(self):
         return "name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}".format(
