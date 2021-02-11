@@ -18,7 +18,7 @@ def collect_dependencies(branch_name):
     subprocess.check_call(["git", "clone", environ["GITHUB_SERVER_URL"] + "/" + environ["GITHUB_REPOSITORY"], "."])
     subprocess.check_call(["git", "checkout", branch_name])
     subprocess.check_call(["git", "branch"])
-    conanfile_txt = ConanfileTxt(conan, environ["CONAN_TXT"], branch_name != "master")
+    conanfile_txt = ConanfileTxt(environ["CONAN_TXT"], branch_name != "master")
     chdir("..")
     print("Collected {num} packages:".format(num=len(conanfile_txt.packages)))
     for _, package in conanfile_txt.packages.items():
@@ -52,15 +52,7 @@ def detect_updated_packages(master_txt, branch_txt):
 
 
 if __name__ == "__main__":
-    subprocess.check_call(['chmod', '-R', '777', 'sources'])
-
-    conan_run(["--version"])
-
     upload_remote = prepare_environment()
-
-    conan_run(["--version"])
-
-    sys.exit(0)
 
     conanfile_txt_master = collect_dependencies("master")
     if "GITHUB_HEAD_REF" in environ and environ["GITHUB_HEAD_REF"] != '':
@@ -75,16 +67,18 @@ if __name__ == "__main__":
     for _, package in conanfile_txt_head.packages.items():
         package.export()
 
+    sys.exit(0)
+
     for build_type in environ["CONAN_BUILD_TYPES"].split(","):
         print_section("Building packages for build_type={build}".format(build=build_type))
-        conan.install([environ["CONAN_TXT"],
+        conan_run(["install", environ["CONAN_TXT"],
                     "-if", "install_dir",
                     "-pr", environ["CONAN_PROFILE"],
                     "-s", "build_type={build}".format(build=build_type),
                     "--build", "missing"])
 
     print_section("Enumerating installed packages")
-    installed = list_installed_packages(conan)
+    installed = list_installed_packages()
 
     print_section("Ensure all packages have mention in {txt}".format(txt=environ["CONAN_TXT"]))
     for pi in installed:
@@ -100,4 +94,4 @@ if __name__ == "__main__":
 
     print_section("Uploading packages")
     if installed:
-        conan.upload(["--confirm", "--force", "--all", "-r", upload_remote, "*"])
+        conan_run(["upload", "--confirm", "--force", "--all", "-r", upload_remote, "*"])

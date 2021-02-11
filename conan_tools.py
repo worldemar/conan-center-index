@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from os import path, environ, makedirs
+from os import path, environ
 import subprocess
 import hashlib
 import json
@@ -47,9 +47,9 @@ def _is_gha_buildable(line):
     return True
 
 
-def list_installed_packages(conan):
+def list_installed_packages():
     installed_packages = []
-    conan.search(["--json", "installed.json", "*"])
+    conan_run(["search", "--json", "installed.json", "*"])
     installed = json.load(open("installed.json","r"))
     if installed["results"]:
         for p in installed["results"][0]["items"]:
@@ -65,8 +65,7 @@ class PackageReference(object):
             path.join("recipes", self.name, "all", "conanfile.py"),
         ]
 
-    def __init__(self, conan, strref):
-        self.conan = conan
+    def __init__(self, strref):
         if "/" not in strref:
             raise RuntimeError("package reference '{ref}' does not contain slash".format(ref=strref))
         self.name, self.version = strref.split("/")
@@ -96,15 +95,14 @@ class PackageReference(object):
 
 
 class ConanfileTxt(object):
-    def __init__(self, conan, filename, conanfile_required):
-        self.conan = conan
+    def __init__(self, filename, conanfile_required):
         self.packages = {}
         if path.isfile(filename):
             with open(filename) as f:
                 for strline in f.read().splitlines():
                     if not _is_gha_buildable(strline):
                         continue
-                    package = PackageReference(conan, strline)
+                    package = PackageReference(strline)
                     self.packages[package.name] = package
         elif conanfile_required:
             raise RuntimeError("File {filename} is required, but was not found")

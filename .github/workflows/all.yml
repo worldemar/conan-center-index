@@ -79,7 +79,8 @@ jobs:
           python-version: '3.x'
       - name: Build and Upload
         run: |
-          pip install conan
+          pip install --upgrade conan
+          chmod -R 777 sources
           python sources/build.py
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}
