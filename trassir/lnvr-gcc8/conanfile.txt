@@ -36,6 +36,8 @@ qtwebkit/5.212.0-alpha4
 # global zlib dependency (override for openssl and curl)
 zlib/1.2.11
 
+expat/2.2.9
+
 [options]
 ffmpeg:pulse=False
 ffmpeg:vdpau=False
