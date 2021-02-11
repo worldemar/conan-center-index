@@ -15,7 +15,7 @@ def conan_run(args):
             ['docker', 'run',
                 '-v', path.abspath('.') + '/sources:/home/conan',
                 'trassiross/conan-gcc8',
-                'ls',  '--la'
+                'ls',  '-la'
                 ])
         subprocess.check_call(
             ['docker', 'run',
