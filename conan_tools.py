@@ -8,9 +8,15 @@ import json
 
 def conan_run(args):
     if not path.exists("sources/.conan"):
-        makedirs("sources/.conan")
+        #makedirs("sources/.conan")
         #with open(".conan/conan.conf", "wb") as f:
         #    f.write("".encode("ascii"))
+        subprocess.check_call(
+            ['docker', 'run', '--rm',
+                '-v', path.abspath('.') + '/sources:/home/conan',
+                'trassiross/conan-gcc8',
+                'mkdir ~/.conan'
+                ])
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
         cmd = ['docker', 'run', '--rm',
