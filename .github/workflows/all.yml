@@ -81,6 +81,8 @@ jobs:
         run: |
           pip install --upgrade conan
           chmod -R 777 sources
+          mkdir .conan-docker
+          chmod 777 .conan-docker
           python sources/build.py
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}
