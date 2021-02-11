@@ -83,9 +83,11 @@ if __name__ == "__main__":
         name, version = pi.split("/")
         if name not in conanfile_txt_head.packages:
             print("Package {name} is not mentioned in {txt}".format(name=name, txt=environ["CONAN_TXT"]))
+            continue
         if version != conanfile_txt_head.packages[name].version:
             print("Package {name}-{ver} is mentioned in {txt} with different version {name}-{ver_txt}".format(
                 name=name, ver=version, txt=environ["CONAN_TXT"], ver_txt=conanfile_txt_head.packages[name].version))
+            continue
         package_txt = conanfile_txt_head.packages[name]
         print("Package {name} is confirmed by {txt} as {name}-{ver}".format(
             name=name, txt=environ["CONAN_TXT"], ver=version))
