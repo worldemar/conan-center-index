@@ -1,5 +1,4 @@
-from os import environ, mkdir, chdir
-import sys
+from os import environ, mkdir, chdir, path
 import subprocess
 from environment import  prepare_environment
 from conan_tools import ConanfileTxt, list_installed_packages, conan_run
@@ -69,9 +68,9 @@ if __name__ == "__main__":
 
     for build_type in environ["CONAN_BUILD_TYPES"].split(","):
         print_section("Building packages for build_type={build}".format(build=build_type))
-        conan_run(["install", environ["CONAN_TXT"],
+        conan_run(["install", path.join('sources', environ["CONAN_TXT"]),
                     "-if", "install_dir",
-                    "-pr", environ["CONAN_PROFILE"],
+                    "-pr", path.join('sources', environ["CONAN_PROFILE"]),
                     "-s", "build_type={build}".format(build=build_type),
                     "--build", "missing"])
 
