@@ -37,8 +37,8 @@ def _is_gha_buildable(line):
 
 def list_installed_packages():
     installed_packages = []
-    conan_run(["search", "--json", "installed.json", "*"])
-    installed = json.load(open("installed.json","r"))
+    conan_run(["search", "--json", path.join('sources', "installed.json"), "*"])
+    installed = json.load(open(path.join('sources', "installed.json"),"r"))
     if installed["results"]:
         for p in installed["results"][0]["items"]:
             if _is_gha_buildable(p["recipe"]["id"]):
