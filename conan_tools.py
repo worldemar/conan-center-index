@@ -10,7 +10,7 @@ def conan_run(args):
     if not path.exists(".conan"):
         makedirs(".conan")
         with open(".conan/conan.conf", "wb") as f:
-            f.write("")
+            f.write("".encode("ascii"))
         subprocess.check_call(["ls", "-la", "/home/conan/.conan/conan.conf"])
     cmd = ["conan"]
     if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
