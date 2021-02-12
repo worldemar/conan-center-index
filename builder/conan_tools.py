@@ -49,10 +49,12 @@ def list_installed_packages():
 
 class PackageReference():
     def _possible_conanfile_locations(self):
-        return [
-            path.join('recipes', self.name, self.version, 'conanfile.py'),
-            path.join('recipes', self.name, 'all', 'conanfile.py'),
-        ]
+        yield path.join('recipes', self.name, self.version, 'conanfile.py')
+        full_ver = self.version.split('.')
+        for i in range(len(full_ver) - 1, 0, -1):
+            masked_ver = full_ver[:i] + ['x']
+            yield path.join('recipes', self.name, '.'.join(masked_ver), 'conanfile.py')
+        yield path.join('recipes', self.name, 'all', 'conanfile.py')
 
     def __init__(self, strref):
         if '/' not in strref:
