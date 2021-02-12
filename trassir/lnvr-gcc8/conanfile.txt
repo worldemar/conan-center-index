@@ -84,7 +84,7 @@ xcb-util-keysyms/0.4.0
 xcb-util-renderutil/0.3.9
 xcb-util-wm/0.4.0
 xkbcommon/0.10.0
-xkeyboard/config/2.28
+xkeyboard-config/2.28
 xorgproto/2019.1
 xproto/7.0.31
 xtrans/1.4.0
