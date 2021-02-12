@@ -62,11 +62,11 @@ class PackageReference():
         self.name, self.version = strref.split('/')
         self.conanfile_path = None
         for loc in self._possible_conanfile_locations():
+            print('searching for conanfile.py in {loc}'.format(loc=loc))
             if path.isfile(loc):
                 self.conanfile_path = loc
                 break
         if not self.conanfile_path:
-            print('conanfile.py not found at {locs}'.format(locs=self._possible_conanfile_locations()))
             raise RuntimeError('Recipe for package {pkg} could not be found'.format(pkg=self.name + '/' + self.version))
         self.conanfile = open(self.conanfile_path, 'rb').read()
         md5 = hashlib.md5()
