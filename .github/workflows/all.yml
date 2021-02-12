@@ -28,18 +28,11 @@ jobs:
     strategy:
       matrix:
         build: ['linux-gcc8-release',
-                'linux-gcc8-debug',
                 'windows-2019-release',
                 'windows-2019-debug',
                 'macos-release'
                 ]
         include:
-          - build: 'linux-gcc8-debug'
-            os: 'ubuntu-latest'
-            docker_image: 'trassiross/conan-gcc8'
-            conan_txt: 'trassir/lnvr-gcc8/conanfile.txt'
-            conan_profile: 'trassir/lnvr-gcc8/conanprofile'
-            build_types: 'Debug'
           - build: 'linux-gcc8-release'
             os: 'ubuntu-latest'
             docker_image: 'trassiross/conan-gcc8'
