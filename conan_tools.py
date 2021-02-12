@@ -7,77 +7,77 @@ import json
 
 
 def conan_run(args):
-    cmd = ["conan"]
-    if "CONAN_DOCKER_IMAGE" in environ and environ["CONAN_DOCKER_IMAGE"]:
+    cmd = ['conan']
+    if 'CONAN_DOCKER_IMAGE' in environ and environ['CONAN_DOCKER_IMAGE']:
         if not path.exists('.conan-docker'):
-            mkdir('.conan-docker', mode=0o777)
+            mkdir('.conan-docker')
             chmod('.conan-docker', 0o777)
             chmod('sources', 0o777)
         cmd = ['docker', 'run',
             '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
             '-v', environ['GITHUB_WORKSPACE'] + '/.conan-docker:/home/conan/.conan',
-            environ["CONAN_DOCKER_IMAGE"],
+            environ['CONAN_DOCKER_IMAGE'],
             ] + cmd
     cmd += args
     subprocess.check_call(cmd)
 
 
 def _is_gha_buildable(line):
-    if line.startswith("#"):
+    if line.startswith('#'):
         return False
-    if "# disable GHA" in line:
+    if '# disable GHA' in line:
         return False
-    if "/system" in line:
+    if '/system' in line:
         return False
-    if "@" in line:
+    if '@' in line:
         return False
-    if "/" not in line:
+    if '/' not in line:
         return False
     return True
 
 
 def list_installed_packages():
     installed_packages = []
-    conan_run(["search", "--json", path.join('sources', "installed.json"), "*"])
-    installed = json.load(open(path.join('sources', "installed.json"),"r"))
-    if installed["results"]:
-        for p in installed["results"][0]["items"]:
-            if _is_gha_buildable(p["recipe"]["id"]):
-                installed_packages.append(p["recipe"]["id"])
+    conan_run(['search', '--json', path.join('sources', 'installed.json'), '*'])
+    installed = json.load(open(path.join('sources', 'installed.json'),'r'))
+    if installed['results']:
+        for p in installed['results'][0]['items']:
+            if _is_gha_buildable(p['recipe']['id']):
+                installed_packages.append(p['recipe']['id'])
     return installed_packages
 
 
 class PackageReference(object):
     def _possible_conanfile_locations(self):
         return [
-            path.join("recipes", self.name, self.version, "conanfile.py"),
-            path.join("recipes", self.name, "all", "conanfile.py"),
+            path.join('recipes', self.name, self.version, 'conanfile.py'),
+            path.join('recipes', self.name, 'all', 'conanfile.py'),
         ]
 
     def __init__(self, strref):
-        if "/" not in strref:
-            raise RuntimeError("package reference '{ref}' does not contain slash".format(ref=strref))
-        self.name, self.version = strref.split("/")
+        if '/' not in strref:
+            raise RuntimeError('package reference `{ref}` does not contain slash'.format(ref=strref))
+        self.name, self.version = strref.split('/')
         self.conanfile_path = None
         for loc in self._possible_conanfile_locations():
             if path.isfile(loc):
                 self.conanfile_path = loc
                 break
         if not self.conanfile_path:
-            print("conanfile.py not found at {locs}".format(locs=self._possible_conanfile_locations()))
-            raise RuntimeError("Recipe for package {pkg} could not be found".format(pkg=self.name + "/" + self.version))
-        self.conanfile = open(self.conanfile_path, "rb").read()
+            print('conanfile.py not found at {locs}'.format(locs=self._possible_conanfile_locations()))
+            raise RuntimeError('Recipe for package {pkg} could not be found'.format(pkg=self.name + '/' + self.version))
+        self.conanfile = open(self.conanfile_path, 'rb').read()
         md5 = hashlib.md5()
         md5.update(self.conanfile)
         self.md5sum = md5.hexdigest()
 
     def export(self):
-        conan_run(["export",
-            path.join("sources", self.conanfile_path),
-            self.name + "/" + self.version + "@_/_"])
+        conan_run(['export',
+            path.join('sources', self.conanfile_path),
+            self.name + '/' + self.version + '@_/_'])
 
     def __str__(self):
-        return "name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}".format(
+        return 'name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}'.format(
             name=self.name,
             ver=self.version,
             md5=self.md5sum,
@@ -96,7 +96,7 @@ class ConanfileTxt(object):
                     package = PackageReference(strline)
                     self.packages[package.name] = package
         elif conanfile_required:
-            raise RuntimeError("File {filename} is required, but was not found")
+            raise RuntimeError('File {filename} is required, but was not found')
 
     def export(self):
         for package in self.packages:
