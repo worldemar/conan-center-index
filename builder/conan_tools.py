@@ -47,7 +47,7 @@ def list_installed_packages():
     return installed_packages
 
 
-class PackageReference(object):
+class PackageReference():
     def _possible_conanfile_locations(self):
         return [
             path.join('recipes', self.name, self.version, 'conanfile.py'),
@@ -85,7 +85,7 @@ class PackageReference(object):
         )
 
 
-class ConanfileTxt(object):
+class ConanfileTxt():
     def __init__(self, filename, conanfile_required):
         self.packages = {}
         if path.isfile(filename):

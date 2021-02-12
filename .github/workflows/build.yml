@@ -72,7 +72,7 @@ jobs:
       - name: Build and Upload
         run: |
           pip install --upgrade conan
-          python sources/build.py
+          python sources/builder/build.py
         env:
           CONAN_TXT: ${{ matrix.conan_txt }}
           CONAN_PROFILE: ${{ matrix.conan_profile }}
