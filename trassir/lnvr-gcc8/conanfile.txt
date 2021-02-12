@@ -56,7 +56,7 @@ libuuid/1.0.3
 libva/1.5.1
 libwebp/1.1.0
 libx11/1.6.8 # disable GHA (no recipe)
-libxau/1.0.9
+libxau/1.0.9 # disable GHA (no recipe)
 libxcb/1.13.1
 libxcomposite/0.4.5
 libxcursor/1.2.0
