@@ -14,10 +14,10 @@ def conan_run(args):
             chmod('.conan-docker', 0o777)
             chmod('sources', 0o777)
         cmd = ['docker', 'run',
-            '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
-            '-v', environ['GITHUB_WORKSPACE'] + '/.conan-docker:/home/conan/.conan',
-            environ['CONAN_DOCKER_IMAGE'],
-            ] + cmd
+               '-v', environ['GITHUB_WORKSPACE'] + '/sources:/home/conan/sources',
+               '-v', environ['GITHUB_WORKSPACE'] + '/.conan-docker:/home/conan/.conan',
+               environ['CONAN_DOCKER_IMAGE'],
+               ] + cmd
     cmd += args
     subprocess.check_call(cmd)
 
@@ -39,7 +39,7 @@ def _is_gha_buildable(line):
 def list_installed_packages():
     installed_packages = []
     conan_run(['search', '--json', path.join('sources', 'installed.json'), '*'])
-    installed = json.load(open(path.join('sources', 'installed.json'),'r'))
+    installed = json.load(open(path.join('sources', 'installed.json'), 'r'))
     if installed['results']:
         for p in installed['results'][0]['items']:
             if _is_gha_buildable(p['recipe']['id']):
@@ -73,8 +73,8 @@ class PackageReference():
 
     def export(self):
         conan_run(['export',
-            path.join('sources', self.conanfile_path),
-            self.name + '/' + self.version + '@_/_'])
+                   path.join('sources', self.conanfile_path),
+                   self.name + '/' + self.version + '@_/_'])
 
     def __str__(self):
         return 'name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}'.format(

@@ -7,15 +7,14 @@ from conan_tools import conan_run
 def prepare_environment():
     # fork main repo and set these variables to have own repo for development
     custom_remotes = 'REMOTES_STAGING' in environ and environ['REMOTES_STAGING'] and \
-                    'REMOTES_MASTER' in environ and environ['REMOTES_MASTER'] and \
-                    'REMOTES_UPLOAD_USER' in environ and environ['REMOTES_UPLOAD_USER']
+                     'REMOTES_MASTER' in environ and environ['REMOTES_MASTER'] and \
+                     'REMOTES_UPLOAD_USER' in environ and environ['REMOTES_UPLOAD_USER']
 
     # these interfere with conan commands
     if 'CONAN_USERNAME' in environ:
         del environ['CONAN_USERNAME']
     if 'CONAN_CHANNEL' in environ:
         del environ['CONAN_CHANNEL']
-
 
     conan_run(['config', 'install', 'https://github.com/trassir/conan-config.git'])
 
@@ -45,9 +44,9 @@ def prepare_environment():
     if 'CONAN_PASSWORD' in environ:
         if custom_remotes:
             conan_run(['user', '--password', environ['CONAN_PASSWORD'],
-                        '--remote', upload_remote, environ['REMOTES_UPLOAD_USER']])
+                       '--remote', upload_remote, environ['REMOTES_UPLOAD_USER']])
         else:
             conan_run(['user', '--password', environ['CONAN_PASSWORD'],
-                        '--remote', upload_remote, 'trassir-ci-bot'])
+                       '--remote', upload_remote, 'trassir-ci-bot'])
 
     return upload_remote

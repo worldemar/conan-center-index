@@ -2,7 +2,7 @@
 
 from os import environ, mkdir, chdir, path
 import subprocess
-from environment import  prepare_environment
+from environment import prepare_environment
 from conan_tools import ConanfileTxt, list_installed_packages, conan_run
 
 
@@ -64,7 +64,8 @@ def detect_dependency_lock(installed, conanfile_txt_head):
     for pi in installed:
         name, version = pi.split('/')
         if name not in conanfile_txt_head.packages:
-            print('Package {name} is not mentioned in {txt}'.format(name=name, txt=environ['CONAN_TXT']))
+            print('Package {name}-{version} is not mentioned in {txt}'.format(
+                name=name, version=version, txt=environ['CONAN_TXT']))
             txt_needs_updating = True
             continue
         if version != conanfile_txt_head.packages[name].version:
@@ -101,10 +102,10 @@ if __name__ == '__main__':
         build_type=environ['CONAN_BUILD_TYPE']
     ))
     conan_run(['install', path.join('sources', environ['CONAN_TXT']),
-        '-if', 'install_dir',
-        '-pr', path.join('sources', environ['CONAN_PROFILE']),
-        '-s', 'build_type={build}'.format(build=environ['CONAN_BUILD_TYPE']),
-        '--build', 'missing'])
+               '-if', 'install_dir',
+               '-pr', path.join('sources', environ['CONAN_PROFILE']),
+               '-s', 'build_type={build}'.format(build=environ['CONAN_BUILD_TYPE']),
+               '--build', 'missing'])
 
     print_section('Enumerating installed packages')
     installed = list_installed_packages()
