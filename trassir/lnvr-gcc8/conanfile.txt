@@ -76,7 +76,7 @@ openh264/1.7.0
 protobuf/3.9.1
 protoc/3.9.1
 sqlite3/3.31.0
-util-macros/1.19.2
+util-macros/1.19.2 # disable GHA (no recipe)
 xcb-proto/1.13
 xcb-util/0.4.0
 xcb-util-image/0.4.0
