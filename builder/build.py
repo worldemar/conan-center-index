@@ -46,7 +46,7 @@ def detect_updated_packages(master_txt, branch_txt):
                 print('CONAN_TXT: recipe updated but version did not')
         else:
             if master_txt.packages[name].version == package.version:
-                print('CONAN_TXT: package did not change: {name}-{ver}'.format(
+                print('CONAN_TXT: package did not change: {name}/{ver}'.format(
                     name=package.name, ver=package.version))
             else:
                 print('CONAN_TXT: package updated with no recipe changes: {ref_master} => {ref_branch}'.format(
@@ -64,16 +64,16 @@ def detect_dependency_lock(installed, conanfile_txt_head):
     for pi in installed:
         name, version = pi.split('/')
         if name not in conanfile_txt_head.packages:
-            print('Package {name}-{version} is not mentioned in {txt}'.format(
+            print('Package {name}/{version} is not mentioned in {txt}'.format(
                 name=name, version=version, txt=environ['CONAN_TXT']))
             txt_needs_updating = True
             continue
         if version != conanfile_txt_head.packages[name].version:
-            print('Package {name}-{ver} is mentioned in {txt} with different version {name}-{ver_txt}'.format(
+            print('Package {name}/{ver} is mentioned in {txt} with different version {name}/{ver_txt}'.format(
                 name=name, ver=version, txt=environ['CONAN_TXT'], ver_txt=conanfile_txt_head.packages[name].version))
             txt_needs_updating = True
             continue
-        print('Package {name} is confirmed by {txt} as {name}-{ver}'.format(
+        print('Package {name} is confirmed by {txt} as {name}/{ver}'.format(
             name=name, txt=environ['CONAN_TXT'], ver=version))
     if txt_needs_updating:
         raise RuntimeError('{txt} needs updating, see packages listed above'.format(
