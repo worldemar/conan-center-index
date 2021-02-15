@@ -18,7 +18,8 @@ def collect_dependencies(branch_name):
                   .format(branch=branch_name))
     mkdir(branch_name)
     with tools.chdir(branch_name):
-        repo = '/'.join([environ['GITHUB_SERVER_URL'], ['GITHUB_REPOSITORY']])
+        repo = '/'.join([environ['GITHUB_SERVER_URL'],
+                         environ['GITHUB_REPOSITORY']])
         subprocess.check_call(['git', 'clone', repo, '.'])
         subprocess.check_call(['git', 'checkout', branch_name])
         subprocess.check_call(['git', 'branch'])
