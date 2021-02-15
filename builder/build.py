@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from os import environ, mkdir, chdir, path
+from os import environ, mkdir, path
 import subprocess
 from environment import prepare_environment
 from conan_tools import ConanfileTxt, list_installed_packages, conan_run
