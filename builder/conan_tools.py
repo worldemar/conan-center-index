@@ -77,7 +77,8 @@ class PackageReference():
                 self.conanfile_path = loc
                 break
         if not self.conanfile_path:
-            raise RuntimeError('Recipe for package {pkg} could not be found'.format(pkg=self.name + '/' + self.version))
+            raise RuntimeError('Recipe for package {name}/{ver} could not be found'.format(
+                name=self.name, ver=self.version))
         self.conanfile = open(self.conanfile_path, 'rb').read()
         md5 = hashlib.md5()
         md5.update(self.conanfile)
@@ -90,7 +91,7 @@ class PackageReference():
                        self.name + '/' + self.version + '@_/_'])
         else:
             print('exporting recipe for {name}/{ver} is disabled in {txt}'.format(
-                name=self.name, ver=self.ver, txt=environ['CONAN_TXT']))
+                name=self.name, ver=self.version, txt=environ['CONAN_TXT']))
 
     def __str__(self):
         return 'name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}'.format(
