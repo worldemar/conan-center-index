@@ -57,15 +57,15 @@ class PackageReference():
         yield path.join('recipes', self.name, 'all', 'conanfile.py')
 
     def __init__(self, strref):
-        if ' # GHA: noexport' in strref:
-            strref_stripped = strref[:strref.index(" # GHA: noexport")].strip()
+        if '# GHA: noexport' in strref:
+            strref_stripped = strref[:strref.index('# GHA: noexport')].strip()
             self.export_recipe = False
         else:
             strref_stripped = strref.strip()
             self.export_recipe = True
         if '/' not in strref_stripped:
             raise RuntimeError('package reference `{ref}` does not contain slash'.format(ref=strref))
-        self.name, self.version = strref.split('/')
+        self.name, self.version = strref_stripped.split('/')
         self.conanfile_path = None
         for loc in self._possible_conanfile_locations():
             print('searching for conanfile.py in {loc}'.format(loc=loc))
