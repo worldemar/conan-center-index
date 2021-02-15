@@ -37,12 +37,12 @@ def prepare_environment():
         conan_run(['remote', 'add', 'conan-center', 'https://conan.bintray.com', 'True'])
 
     head_ref = environ.get('GITHUB_HEAD_REF', 'master')
-    print('GITHUB_HEAD_REF={ref}'.format(head_ref))
+    print('GITHUB_HEAD_REF={ref}'.format(ref=head_ref))
     if head_ref == 'master':
         upload_remote = 'trassir-public'
     else:
         upload_remote = 'trassir-staging'
-    print('Will upload to {remote}'.format(upload_remote))
+    print('Will upload to {remote}'.format(remote=upload_remote))
 
     if 'CONAN_PASSWORD' in environ:
         if custom_remotes:
