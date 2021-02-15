@@ -34,13 +34,14 @@ def prepare_environment():
         conan_run(['remote', 'add', 'trassir-public', 'https://api.bintray.com/conan/trassir/conan-public', 'True'])
         conan_run(['remote', 'add', 'conan-center', 'https://conan.bintray.com', 'True'])
 
+    print('Remotes ready:')
     conan_run(['remote', 'list'])
 
-    head_ref = environ.get('GITHUB_HEAD_REF', '')
-    if head_ref:
-        upload_remote = 'trassir-public'
-    else:
+    if 'GITHUB_HEAD_REF' in environ and environ['GITHUB_HEAD_REF'] != '':
+        print('Detected staging branch `{branch}`'.format(branch=environ['GITHUB_HEAD_REF']))
         upload_remote = 'trassir-staging'
+    else:
+        upload_remote = 'trassir-public'
     print('Will upload to {remote}'.format(remote=upload_remote))
 
     if 'CONAN_PASSWORD' in environ:
