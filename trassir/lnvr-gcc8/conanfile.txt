@@ -78,11 +78,11 @@ protoc/3.9.1
 sqlite3/3.31.0
 util-macros/1.19.2 # disable GHA (no recipe)
 xcb-proto/1.13 # disable GHA (no recipe)
-xcb-util/0.4.0
-xcb-util-image/0.4.0
-xcb-util-keysyms/0.4.0
-xcb-util-renderutil/0.3.9
-xcb-util-wm/0.4.0
+xcb-util/0.4.0 # disable GHA (no recipe)
+xcb-util-image/0.4.0 # disable GHA (no recipe)
+xcb-util-keysyms/0.4.0 # disable GHA (no recipe)
+xcb-util-renderutil/0.3.9 # disable GHA (no recipe)
+xcb-util-wm/0.4.0 # disable GHA (no recipe)
 xkbcommon/0.10.0
 xkeyboard-config/2.28
 xorgproto/2019.1
