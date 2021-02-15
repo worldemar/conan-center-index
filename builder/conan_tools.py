@@ -67,6 +67,8 @@ class PackageReference():
             raise RuntimeError('package reference `{ref}` does not contain slash'.format(ref=strref))
         self.name, self.version = strref_stripped.split('/')
         self.conanfile_path = None
+        if not self.export_recipe:
+            return
         for loc in self._possible_conanfile_locations():
             print('searching for conanfile.py in {loc}'.format(loc=loc))
             if path.isfile(loc):
