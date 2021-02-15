@@ -86,7 +86,7 @@ xcb-util-wm/0.4.0 # disable GHA (no recipe)
 xkbcommon/0.10.0
 xkeyboard-config/2.28 # disable GHA (no recipe)
 xorgproto/2019.1 # disable GHA (no recipe)
-xproto/7.0.31
+xproto/7.0.31 # disable GHA (no recipe)
 xtrans/1.4.0
 xz_utils/5.2.4
 
