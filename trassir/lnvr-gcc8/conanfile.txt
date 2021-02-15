@@ -49,45 +49,45 @@ libelf/0.8.13
 libiconv/1.15
 libjpeg/9d
 libjpeg-turbo/2.0.4
-libpciaccess/0.16 # disable GHA (no recipe)
-libpthread-stubs/0.1 # disable GHA (no recipe)
+libpciaccess/0.16 # GHA: noexport
+libpthread-stubs/0.1 # GHA: noexport
 libunwind/1.3.1
 libuuid/1.0.3
 libva/1.5.1
 libwebp/1.1.0
-libx11/1.6.8 # disable GHA (no recipe)
-libxau/1.0.9 # disable GHA (no recipe)
-libxcb/1.13.1 # disable GHA (no recipe)
-libxcomposite/0.4.5 # disable GHA (no recipe)
-libxcursor/1.2.0 # disable GHA (no recipe)
-libxdamage/1.1.5 # disable GHA (no recipe)
-libxdmcp/1.1.3 # disable GHA (no recipe)
-libxext/1.3.4 # disable GHA (no recipe)
-libxfixes/5.0.3 # disable GHA (no recipe)
-libxml2/2.9.9 # disable GHA (no recipe)
-libxrandr/1.5.2 # disable GHA (no recipe)
-libxrender/0.9.10 # disable GHA (no recipe)
-libxshmfence/1.3 # disable GHA (no recipe)
-libxslt/1.1.33 # disable GHA (no recipe)
-libxxf86vm/1.1.4 # disable GHA (no recipe)
+libx11/1.6.8 # GHA: noexport
+libxau/1.0.9 # GHA: noexport
+libxcb/1.13.1 # GHA: noexport
+libxcomposite/0.4.5 # GHA: noexport
+libxcursor/1.2.0 # GHA: noexport
+libxdamage/1.1.5 # GHA: noexport
+libxdmcp/1.1.3 # GHA: noexport
+libxext/1.3.4 # GHA: noexport
+libxfixes/5.0.3 # GHA: noexport
+libxml2/2.9.9 # GHA: noexport
+libxrandr/1.5.2 # GHA: noexport
+libxrender/0.9.10 # GHA: noexport
+libxshmfence/1.3 # GHA: noexport
+libxslt/1.1.33 # GHA: noexport
+libxxf86vm/1.1.4 # GHA: noexport
 mesa/19.3.1
 odbc/2.3.7
 openh264/1.7.0
 protobuf/3.9.1
 protoc/3.9.1
 sqlite3/3.31.0
-util-macros/1.19.2 # disable GHA (no recipe)
-xcb-proto/1.13 # disable GHA (no recipe)
-xcb-util/0.4.0 # disable GHA (no recipe)
-xcb-util-image/0.4.0 # disable GHA (no recipe)
-xcb-util-keysyms/0.4.0 # disable GHA (no recipe)
-xcb-util-renderutil/0.3.9 # disable GHA (no recipe)
-xcb-util-wm/0.4.0 # disable GHA (no recipe)
+util-macros/1.19.2 # GHA: noexport
+xcb-proto/1.13 # GHA: noexport
+xcb-util/0.4.0 # GHA: noexport
+xcb-util-image/0.4.0 # GHA: noexport
+xcb-util-keysyms/0.4.0 # GHA: noexport
+xcb-util-renderutil/0.3.9 # GHA: noexport
+xcb-util-wm/0.4.0 # GHA: noexport
 xkbcommon/0.10.0
-xkeyboard-config/2.28 # disable GHA (no recipe)
-xorgproto/2019.1 # disable GHA (no recipe)
-xproto/7.0.31 # disable GHA (no recipe)
-xtrans/1.4.0 # disable GHA (no recipe)
+xkeyboard-config/2.28 # GHA: noexport
+xorgproto/2019.1 # GHA: noexport
+xproto/7.0.31 # GHA: noexport
+xtrans/1.4.0 # GHA: noexport
 xz_utils/5.2.4
 
 

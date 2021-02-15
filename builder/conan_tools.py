@@ -25,7 +25,7 @@ def conan_run(args):
 def _is_gha_buildable(line):
     if line.startswith('#'):
         return False
-    if '# disable GHA' in line:
+    if '# GHA: ignore' in line:
         return False
     if '/system' in line:
         return False
@@ -57,7 +57,13 @@ class PackageReference():
         yield path.join('recipes', self.name, 'all', 'conanfile.py')
 
     def __init__(self, strref):
-        if '/' not in strref:
+        if ' # GHA: noexport' in strref:
+            strref_stripped = strref[:strref.index(" # GHA: noexport")].strip()
+            self.export_recipe = False
+        else:
+            strref_stripped = strref.strip()
+            self.export_recipe = True
+        if '/' not in strref_stripped:
             raise RuntimeError('package reference `{ref}` does not contain slash'.format(ref=strref))
         self.name, self.version = strref.split('/')
         self.conanfile_path = None
@@ -74,9 +80,13 @@ class PackageReference():
         self.md5sum = md5.hexdigest()
 
     def export(self):
-        conan_run(['export',
-                   path.join('sources', self.conanfile_path),
-                   self.name + '/' + self.version + '@_/_'])
+        if self.export_recipe:
+            conan_run(['export',
+                       path.join('sources', self.conanfile_path),
+                       self.name + '/' + self.version + '@_/_'])
+        else:
+            print('exporting recipe for {name}/{ver} is disabled in {txt}'.format(
+                name=self.name, ver=self.ver, txt=environ['CONAN_TXT']))
 
     def __str__(self):
         return 'name={name:<16}\tver={ver:<16}\tmd5={md5}\tsrc={src}'.format(
