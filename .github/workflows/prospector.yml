@@ -2,16 +2,12 @@ name: Lint
 on:
   pull_request:
     paths:
-      - 'recipes/**'
-      - 'trassir/**'
       - 'builder/**'
       - '.github/workflows/prospector.yml'
   push:
     branches:
       - master
     paths:
-      - 'recipes/**'
-      - 'trassir/**'
       - 'builder/**'
       - '.github/workflows/prospector.yml'
 
