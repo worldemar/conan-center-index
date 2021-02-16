@@ -13,12 +13,9 @@ on:
 
 jobs:
   lint:
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python_version: [3.9]
+    name: ubuntu-latest
+    runs-on: ubuntu-latest
+    python_version: 3.9
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python_version }}
